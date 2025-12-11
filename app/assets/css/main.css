@@ -1,1 +1,95 @@
-@import "tailwindcss"
+@import "tailwindcss";
+
+.button-bounce {
+    animation: bounce 0.5s ease-in-out infinite;
+}
+
+.rotate-fade-in {
+    animation: rotate-fade-in 1s ease-in-out forwards;
+}
+
+.fade-out {
+    animation: fade-out 0.5s ease-in-out 3s forwards;
+}
+
+.fade-in {
+    animation: fade-in 0.5s ease-in-out 4s forwards;
+}
+
+.float-up {
+    animation: float-up 5s linear infinite;
+}
+
+.slide-up {
+    animation: slide-up 6s ease-in-out forwards;
+}
+
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-0.5px);
+    }
+}
+
+@keyframes rotate-fade-in {
+    0% {
+        transform: rotate(var(--deg, 90deg));
+        opacity: 0;
+    }
+
+    100% {
+        transform: rotate(0deg);
+        opacity: 1;
+    }
+}
+
+@keyframes fade-out {
+    0% {
+        opacity: 1;
+    }
+
+    99% {
+        opacity: 0;
+    }
+
+    100% {
+        display: none;
+    }
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes float-up {
+    0% {
+        transform: translateY(100vh);
+    }
+
+    100% {
+        transform: translateY(-110vh);
+    }
+}
+
+@keyframes slide-up {
+    0%, 80% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+}
