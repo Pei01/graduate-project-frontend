@@ -3,10 +3,10 @@
 		<img src="~/assets/images/cover.png" class="h-full" />
 
 		<div
-			class="button-bounce flex justify-center items-center top-[66%] left-[28%] absolute group rotate-4 z-10"
+			class="justify-center items-center top-[66%] left-[28%] absolute group rotate-4 z-10"
 		>
 			<button
-				class="kinect-interactive flex justify-center items-center group bg-[#186DC4] w-60 h-20 rounded-full outline-black outline-4 z-20"
+				class="button-bounce kinect-interactive flex justify-center items-center group bg-[#186DC4] w-60 h-20 rounded-full outline-black outline-4 z-20"
 				@click="handleStateChange"
 			>
 				<img src="~/assets/images/start.png" class="-rotate-4" />
