@@ -117,3 +117,19 @@
         opacity: 0;
     }
 }
+
+/* Tailwind 預設沒有包含這個特定的 Keyframes，
+  所以保留這個最小化的 style區塊來定義動畫 
+*/
+@keyframes fillCircle {
+	to {
+		stroke-dashoffset: 0; /* 結束狀態：填滿 */
+	}
+}
+
+.animate-fill {
+	animation-name: fillCircle;
+	animation-timing-function: linear;
+	animation-fill-mode: forwards;
+	/* duration 由 inline style 動態控制 */
+}
