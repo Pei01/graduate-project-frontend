@@ -2,8 +2,6 @@
 	<div
 		class="h-screen bg-black flex relative justify-center items-center overflow-hidden"
 	>
-		<!-- ... (Template 內容保持不變) ... -->
-
 		<!-- 影片滑動容器 -->
 		<div
 			class="w-full h-full transition-transform ease-[cubic-bezier(0.25,0.1,0.25,1.0)]"
@@ -17,20 +15,26 @@
 				:key="`${video.id}-${index}`"
 				class="h-screen relative flex justify-center items-center bg-black"
 			>
+				<!-- 
+					★ 修改重點：
+					1. :loop -> Intro 影片不循環，其他影片循環
+					2. @ended -> 監聽播放結束，用於 Intro 自動切換
+				-->
 				<video
 					:ref="(el) => (videoRefs[index] = el)"
 					class="w-full h-full transition-opacity duration-300"
 					:class="getVideoStyle(index)"
 					:src="video.src"
-					loop
+					:loop="video.id !== 'intro'"
 					playsinline
 					@click="changeVideo(1)"
 					@loadedmetadata="onMetadataLoaded($event, index)"
+					@ended="handleVideoEnded(index)"
 				/>
 
 				<!-- 影片資訊 -->
 				<div
-					class="absolute bottom-24 left-5 text-white z-10 pointer-events-none [text-shadow:0_2px_4px_rgba(0,0,0,0.8)]"
+					class="absolute top-[900px] left-5 text-white z-10 pointer-events-none [text-shadow:0_2px_4px_rgba(0,0,0,0.8)] w-2/3"
 				>
 					<h2 class="text-2xl font-bold mb-2">{{ video.title }}</h2>
 					<p class="text-lg opacity-90">{{ video.desc }}</p>
@@ -39,29 +43,10 @@
 		</div>
 
 		<!-- 控制按鈕層 -->
-		<div class="absolute right-4 bottom-20 flex flex-col gap-5 z-20">
-			<!-- <button
-				class="kinect-btn w-20 h-20 rounded-full bg-white/20 backdrop-blur-md border-2 border-white text-white flex justify-center items-center transition-all duration-300 hover:bg-white/30"
-				@click="changeVideo(-1)"
-			>
-				▲
-			</button>
-
-			<div
-				class="text-center text-2xl font-bold text-white [text-shadow:0_0_10px_black]"
-			>
-				{{ displayIndex }} / {{ rawVideos.length }}
-			</div>
-
+		<div class="absolute right-4 bottom-14 flex flex-col gap-5 z-20">
 			<button
-				class="kinect-btn w-20 h-20 rounded-full bg-white/20 backdrop-blur-md border-2 border-white text-white flex justify-center items-center transition-all duration-300 hover:bg-white/30"
-				@click="changeVideo(1)"
-			>
-				▼
-			</button> -->
-
-			<button
-				class="kinect-interactive kinect-btn mt-10 px-5 py-2.5 bg-red-600/60 text-white no-underline rounded-full text-center border border-red-500 backdrop-blur-sm transition-all hover:bg-red-600/80"
+				v-show="currentIndex !== 0"
+				class="kinect-interactive kinect-btn mt-10 py-2 px-3 bg-orange-600/60 text-white text-xl no-underline rounded-full text-center border border-orange-500 backdrop-blur-sm transition-all hover:bg-orange-600/80"
 				@click="handleEnded"
 			>
 				結束測驗
@@ -74,15 +59,20 @@
 import { ref, computed, watch, onMounted, onUnmounted, nextTick } from "vue";
 import { useRouter } from "vue-router";
 
-// 假設路徑正確
+// === 開場影片設定 ===
+// 請確認 public/videos/ 下有這個 intro.mp4 檔案
+const introVideo = {
+	id: "intro",
+	src: "/videos/intro.mp4",
+};
 
 // === 1. 原始資料 ===
 const rawVideos = [
 	{
 		id: 1,
 		src: "/videos/short1.mp4",
-		title: "寶寶老闆的真心話",
-		desc: "街訪路邊的小朋友，沒想到他們的回答竟然充滿了人生哲理？",
+		title: "貓咪大廚的煩惱",
+		desc: "貓咪大廚煮麵又煮糊了，被老闆罵了一頓，真是太難了！",
 	},
 	{
 		id: 2,
@@ -152,23 +142,45 @@ const rawVideos = [
 		title: "第一人稱雲霄飛車",
 		desc: "抓緊扶手！帶你體驗在山林間穿梭、收集金幣的極速快感。",
 	},
+	{
+		id: 13,
+		src: "/videos/short13.mp4",
+		title: "校園狼人熱舞",
+		desc: "大家注意啦！清大校園驚見兩隻...愛跳舞的狼？跟著音樂一起嗨！",
+	},
+
+	{
+		id: 14,
+		src: "/videos/short14.mp4",
+		title: "課堂上的震撼教育",
+		desc: "學生突然站起來給了老師一巴掌？這到底是怎麼一回事？",
+	},
+	{
+		id: 15,
+		src: "/videos/short15.mp4",
+		title: "暖呼呼的小豬",
+		desc: "冬天就是要像這隻小豬一樣，裹在暖暖的毛毯裡，露出幸福的表情！",
+	},
+	{
+		id: 16,
+		src: "/videos/short16.mp4",
+		title: "半夜的搖滾貓",
+		desc: "凌晨兩點不睡覺在門口打鼓？這隻貓咪的搖滾魂燃燒得太不是時候啦！",
+	},
+	{
+		id: 17,
+		src: "/videos/short17.mp4",
+		title: "寶寶老闆的真心話",
+		desc: "街訪路邊的小朋友，沒想到他們的回答竟然充滿了人生哲理？",
+	},
 ];
 
 const router = useRouter();
 
-// === 2. 建構無限輪播資料 ===
-const extendedVideos = computed(() => {
-	const firstClone = { ...rawVideos[0], id: "clone-first", isClone: true };
-	const lastClone = {
-		...rawVideos[rawVideos.length - 1],
-		id: "clone-last",
-		isClone: true,
-	};
-	return [lastClone, ...rawVideos, firstClone];
-});
+// === 2. 狀態管理 ===
+const isIntroPhase = ref(true);
+const currentIndex = ref(0);
 
-// === 3. 狀態管理 ===
-const currentIndex = ref(1);
 const videoRefs = ref([]);
 const transitionDuration = ref(500);
 let isAnimating = false;
@@ -201,7 +213,25 @@ const getVideoStyle = (index) => {
 	}
 };
 
-// === 4. 核心邏輯 (保持不變) ===
+// === 2. 建構無限輪播資料 ===
+const extendedVideos = computed(() => {
+	const firstClone = { ...rawVideos[0], id: "clone-first", isClone: true };
+	const lastClone = {
+		...rawVideos[rawVideos.length - 1],
+		id: "clone-last",
+		isClone: true,
+	};
+
+	if (isIntroPhase.value) {
+		// ★ 開場模式清單： [Intro, Real1, Real2, ..., CloneFirst]
+		return [introVideo, ...rawVideos, firstClone];
+	} else {
+		// ★ 正常循環模式： [CloneLast, Real1, Real2, ..., CloneFirst]
+		return [lastClone, ...rawVideos, firstClone];
+	}
+});
+
+// === 4. 切換影片邏輯 ===
 const changeVideo = async (direction) => {
 	if (isAnimating) return;
 	isAnimating = true;
@@ -210,6 +240,11 @@ const changeVideo = async (direction) => {
 	currentIndex.value += direction;
 
 	loopResetTimer = setTimeout(() => {
+		// ★ 狀態切換邏輯：如果從 Intro (idx 0) 滑到 Real1 (idx 1)
+		if (isIntroPhase.value && currentIndex.value === 1) {
+			isIntroPhase.value = false;
+		}
+
 		handleLoopReset();
 		isAnimating = false;
 	}, 500);
@@ -217,16 +252,18 @@ const changeVideo = async (direction) => {
 
 const handleLoopReset = () => {
 	const total = extendedVideos.value.length;
+
+	// 處理無限輪播的瞬移
 	if (currentIndex.value === total - 1) {
 		transitionDuration.value = 0;
 		currentIndex.value = 1;
-	} else if (currentIndex.value === 0) {
+	} else if (currentIndex.value === 0 && !isIntroPhase.value) {
 		transitionDuration.value = 0;
 		currentIndex.value = total - 2;
 	}
 };
 
-// === 5. 播放控制 (保持不變) ===
+// === 5. 播放控制 ===
 watch(currentIndex, async (newIdx, oldIdx) => {
 	await nextTick();
 	if (oldIdx !== undefined && videoRefs.value[oldIdx]) {
@@ -240,51 +277,69 @@ watch(currentIndex, async (newIdx, oldIdx) => {
 	}
 });
 
+// === ★ 新增：處理 Intro 播放結束 ===
+const handleVideoEnded = (index) => {
+	// 如果現在是開場階段 (Intro Phase) 且正在播放第一個影片 (Intro)
+	if (isIntroPhase.value && index === 0) {
+		console.log("Intro 結束，自動切換...");
+		changeVideo(1);
+	}
+};
+
 const displayIndex = computed(() => {
+	if (isIntroPhase.value && currentIndex.value === 0) return "-";
+
 	const realLength = rawVideos.length;
 	if (currentIndex.value === 0) return realLength;
 	if (currentIndex.value === extendedVideos.value.length - 1) return 1;
 	return currentIndex.value;
 });
 
+// 狀態管理：選擇的動物
+const selectedAnimal = useState("selectedAnimal");
+
 const handleEnded = async () => {
-	// const URL = "http://192.168.0.141:4000/api/print";
 	const URL = "http://172.20.10.5:4000/api/print";
 
-	router.push("/end");
+	try {
+		await $fetch(URL, {
+			method: "POST",
+			body: {
+				message: selectedAnimal.value || null,
+			},
+		});
+	} catch (e) {
+		console.error("Print failed:", e);
+	}
 
-	// FIXME:
-	// await $fetch(URL, {
-	// 	method: "POST",
-	// 	body: {
-	// 		message: "print request from vue app",
-	// 	},
-	// });
+	router.push("/end");
 };
 
 // ★ 新增：處理舉手事件
 const handleHandUp = () => {
-	changeVideo(1); // 切換到下一部
+	if (currentIndex.value !== 0) {
+		changeVideo(1); // 切換到下一部
+	}
 };
 
 onMounted(() => {
 	nextTick(() => {
-		if (videoRefs.value[1]) {
-			videoRefs.value[1].play().catch(() => {});
+		// 播放第一個影片 (Intro)
+		if (videoRefs.value[0]) {
+			videoRefs.value[0].play().catch(() => {});
 		}
 	});
 
-	// ★ 新增：監聽來自 KinectCursor 的全域事件
 	window.addEventListener("hand-up", handleHandUp);
 });
 
 onUnmounted(() => {
 	if (loopResetTimer) clearTimeout(loopResetTimer);
+
 	videoRefs.value.forEach((video) => {
 		if (video) video.pause();
 	});
 
-	// ★ 新增：移除監聽器
 	window.removeEventListener("hand-up", handleHandUp);
 });
 </script>

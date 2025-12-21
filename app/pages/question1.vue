@@ -1,10 +1,10 @@
 <!-- 問題一 -->
 <template>
-	<div class="flex relative justify-center items-center h-full">
-		<img src="~/assets/images/bg.png" class="absolute h-full" />
+	<div class="flex relative justify-center items-center h-full w-[547.25px]">
+		<img src="~/assets/images/bg.png" class="absolute h-full w-full" />
 
 		<div class="flex flex-col justify-center items-center z-10">
-			<img src="~/assets/images/title.png" class="-mb-20" />
+			<img src="~/assets/images/title.png" class="max-w-none w-[130%] -mb-30" />
 
 			<div class="px-4 grid grid-cols-2 gap-4">
 				<img
@@ -31,18 +31,19 @@ import animal6 from "~/assets/images/animals/option6.png";
 const router = useRouter();
 
 const animals = [
-	{ src: animal1, value: "cat" },
-	{ src: animal2, value: "dog" },
-	{ src: animal3, value: "lion" },
-	{ src: animal4, value: "owl" },
-	{ src: animal5, value: "penguin" },
-	{ src: animal6, value: "whale" },
+	{ src: animal1, value: "喵咪" },
+	{ src: animal2, value: "狗勾" },
+	{ src: animal3, value: "辛巴寶寶" },
+	{ src: animal4, value: "喵頭鷹" },
+	{ src: animal5, value: "企鵝寶寶" },
+	{ src: animal6, value: "小鯨魚" },
 ];
 
-const handleAnimalSelect = (animal: string) => {
-	console.log("Selected animal:", animal);
-	// 在這裡處理動物選擇的邏輯，例如導航到遊戲頁面並傳遞所選動物
+const selectedAnimal = useState("selectedAnimal");
 
-	router.push("/question2")
+const handleAnimalSelect = (animal: string) => {
+	selectedAnimal.value = animal; 
+
+	router.push("/question2");
 };
 </script>

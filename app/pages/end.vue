@@ -1,12 +1,12 @@
 <template>
-	<div class="relative h-full">
+	<div class="relative h-full w-[547.25px]">
 		<!-- 背景圖：加上 object-cover 確保填滿且不變形 -->
-		<img src="~/assets/images/end_cover.png" class="h-full" />
+		<img src="~/assets/images/end_cover.png" class="h-full w-full" />
 
 		<!-- 底部容器：關鍵是加上 w-full left-0，這樣 items-center 才會在正中間 -->
 		<!-- pb-20 用來留出底部安全距離 -->
 		<div
-			class="absolute bottom-0 left-0 w-full flex flex-col justify-center items-center pb-40"
+			class="absolute bottom-0 left-0 w-full flex flex-col justify-center items-center pb-60"
 		>
 			<!-- === 長條式進度條容器 === -->
 			<div
@@ -16,7 +16,7 @@
 				<div
 					class="h-full bg-black shadow-[0_0_15px_rgba(6,182,212,0.8)] transition-all duration-75 ease-linear"
 					:style="{ width: `${progress}%` }"
-				></div>
+				/>
 			</div>
 
 			<!-- 顯示秒數 -->

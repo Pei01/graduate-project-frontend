@@ -1,22 +1,22 @@
 <!-- 問題二 -->
 <template>
-	<div class="flex relative justify-center items-center h-full">
-		<img src="~/assets/images/bg/2.png" class="h-full" />
+	<div class="flex relative justify-center items-center h-full w-[547.25px]">
+		<img src="~/assets/images/bg/2.png" class="h-full w-full" />
 
 		<div
-			class="absolute top-0 size-full flex flex-col items-center justify-center gap-10"
+			class="absolute top-0 size-full flex flex-col items-center justify-center gap-18"
 		>
 			<div
-				class="flex flex-col justify-center items-center font-bold text-black text-4xl gap-2"
+				class="flex flex-col justify-center items-center font-bold text-black text-6xl gap-5 tracking-wider"
 			>
 				<h1 class="">以下哪種情境</h1>
 				<h1 class="">最讓您感到壓力？</h1>
 			</div>
 
-			<div class="flex flex-col items-center justify-center w-80 gap-4">
+			<div class="flex flex-col items-center justify-center w-100 gap-6">
 				<div v-for="option in questionOptions.Q2" :key="option" class="w-full">
 					<button
-						class="kinect-interactive bg-[#E6FFE9] border-4 border-[#29983C] rounded-full w-full h-20 hover:scale-110 transition-transform duration-300 p-4"
+						class="kinect-interactive bg-[#E6FFE9] border-4 border-[#29983C] rounded-full w-full hover:scale-110 transition-transform duration-300 py-10 px-8 text-3xl"
 						@click="handleOptionSelect(option)"
 					>
 						{{ option }}
@@ -34,18 +34,18 @@ const router = useRouter();
 
 const questionOptions = {
 	Q1: ["cat", "dog", "lion", "owl", "penguin", "whale"],
-	Q2: ["決定午餐要吃什麼", "跟店員多要一份餐具", "拒絕朋友不想去的聚會"],
+	Q2: ["決定午餐要吃什麼🍽️", "跟店員多要一份餐具🍴", "拒絕朋友不想去的聚會🍻"],
 	Q3: [
-		"雖受傷但認同，急著想知道如何改進！",
-		"表面點頭道謝，心裡覺得對方根本不懂⋯⋯⋯",
-		"堅信自己最棒，無視批評並吃甜點犒賞自己",
+		"雖受傷但認同，急著想知道如何改進！✨",
+		"表面點頭道謝，心裡覺得對方根本不懂⋯⋯😵",
+		"堅信自己最棒，無視批評並吃甜點犒賞自己🧁",
 	],
-	Q4: ["吃飯的時候", "看電影的時候", "讀書的時候"],
+	Q4: ["吃飯的時候🍔", "看電影的時候🍿", "讀書的時候📚"],
 };
 
 const handleOptionSelect = (option: string) => {
 	console.log("Selected option:", option);
 
-    router.push("/question3");
+	router.push("/question3");
 };
 </script>

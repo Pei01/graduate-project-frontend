@@ -42,8 +42,9 @@ import { io } from "socket.io-client";
 
 // === 設定參數 ===
 const DWELL_TIME = 3000;
+// const SOCKET_URL = "http://192.168.0.110:5000";
 const SOCKET_URL = "http://172.20.10.4:5000";
-const SCREEN_OFFSET_X = 526;
+const SCREEN_OFFSET_X = 384;
 const SCREEN_OFFSET_Y = 0;
 const DEBOUNCE_MS = 200;
 
