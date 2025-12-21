@@ -75,26 +75,83 @@ import { ref, computed, watch, onMounted, onUnmounted, nextTick } from "vue";
 import { useRouter } from "vue-router";
 
 // 假設路徑正確
-import short1 from "~/assets/videos/short1.mp4";
-import short2 from "~/assets/videos/short2.mp4";
-import short3 from "~/assets/videos/short3.mp4";
-// ... 其他 import
 
+// === 1. 原始資料 ===
 const rawVideos = [
 	{
 		id: 1,
-		src: short1,
-		title: "大白兔的故事",
-		desc: "這是一部經典的開源動畫電影。",
+		src: "/videos/short1.mp4",
+		title: "寶寶老闆的真心話",
+		desc: "街訪路邊的小朋友，沒想到他們的回答竟然充滿了人生哲理？",
 	},
 	{
 		id: 2,
-		src: short2,
-		title: "大象之夢",
-		desc: "3D 動畫短片，展示了超現實的機械世界。",
+		src: "/videos/short2.mp4",
+		title: "貓咪的秘密身分",
+		desc: "你看這隻貓咪多可愛...等等！牠怎麼突然變成了百獸之王？",
 	},
-	{ id: 3, src: short3, title: "火焰特效", desc: "展示高畫質的火焰粒子效果。" },
-	// ... 其他影片
+	{
+		id: 3,
+		src: "/videos/short3.mp4",
+		title: "保險箱裡的寶藏",
+		desc: "費盡千辛萬苦解開了最安全的保險箱，結果裡面的東西讓人哭笑不得。",
+	},
+	{
+		id: 4,
+		src: "/videos/short4.mp4",
+		title: "恐龍鄰居來敲門",
+		desc: "當侏羅紀恐龍出現在家門口試圖惡作劇，卻遇上了淡定的阿嬤...",
+	},
+	{
+		id: 5,
+		src: "/videos/short5.mp4",
+		title: "Emina 的市集大冒險",
+		desc: "今天帶大家來到傳統市場，這裡充滿了熱情的攤販與意想不到的好物！",
+	},
+	{
+		id: 6,
+		src: "/videos/short6.mp4",
+		title: "復古貓咪時裝秀",
+		desc: "穿越時空的貓咪們穿上了復古洋裝，優雅又可愛的模樣讓人融化。",
+	},
+	{
+		id: 7,
+		src: "/videos/short7.mp4",
+		title: "貓咪復古迪斯可",
+		desc:
+			"穿著復古點點裙的貓咪們再次登場！這次帶來了默契十足的雙人手勢舞，魔性又可愛。",
+	},
+	{
+		id: 8,
+		src: "/videos/short8.mp4",
+		title: "極致舒壓擠牙膏",
+		desc:
+			"五顏六色、充滿亮粉的牙膏擠在牙刷上的特寫，絕對是強迫症患者的最愛，視覺上的極致享受。",
+	},
+	{
+		id: 9,
+		src: "/videos/short9.mp4",
+		title: "禪與自我覺醒",
+		desc: "一場關於冥想、突破自我與蛻變的視覺旅程，尋找內心的平靜。",
+	},
+	{
+		id: 10,
+		src: "/videos/short10.mp4",
+		title: "極致舒壓切水果",
+		desc: "晶瑩剔透的水果切開瞬間，帶給你視覺與聽覺的雙重 ASMR 享受。",
+	},
+	{
+		id: 11,
+		src: "/videos/short11.mp4",
+		title: "追逐財富的奔跑",
+		desc: "我們每天忙碌奔波究竟是為了什麼？一支關於金錢與人生選擇的短片。",
+	},
+	{
+		id: 12,
+		src: "/videos/short12.mp4",
+		title: "第一人稱雲霄飛車",
+		desc: "抓緊扶手！帶你體驗在山林間穿梭、收集金幣的極速快感。",
+	},
 ];
 
 const router = useRouter();
@@ -190,8 +247,19 @@ const displayIndex = computed(() => {
 	return currentIndex.value;
 });
 
-const handleEnded = () => {
+const handleEnded = async () => {
+	// const URL = "http://192.168.0.141:4000/api/print";
+	const URL = "http://172.20.10.5:4000/api/print";
+
 	router.push("/end");
+
+	// FIXME:
+	// await $fetch(URL, {
+	// 	method: "POST",
+	// 	body: {
+	// 		message: "print request from vue app",
+	// 	},
+	// });
 };
 
 // ★ 新增：處理舉手事件
