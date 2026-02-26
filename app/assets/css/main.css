@@ -1,5 +1,15 @@
 @import "tailwindcss";
 
+@theme {
+  --font-arcade: "Press Start 2P", monospace;
+  --font-terminal: "VT323", monospace;
+  --color-neon-pink: #ff0066;
+  --color-neon-cyan: #00ffff;
+  --color-neon-green: #39ff14;
+  --color-neon-gold: #ffd700;
+  --color-arcade-dark: #0d0221;
+}
+
 /* 定義 page 轉場的動畫效果 */
 .page-enter-active,
 .page-leave-active {
@@ -132,4 +142,144 @@
 	animation-timing-function: linear;
 	animation-fill-mode: forwards;
 	/* duration 由 inline style 動態控制 */
+}
+
+/* ============================================================
+   ARCADE UI KEYFRAMES
+   ============================================================ */
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@keyframes neon-flicker {
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; }
+  20%, 24%, 55% { opacity: 0.4; }
+}
+
+@keyframes glitch-shift {
+  0%, 100% { transform: translate(0, 0) skewX(0deg); }
+  20% { transform: translate(-3px, 0) skewX(-1deg); }
+  40% { transform: translate(3px, 0) skewX(1deg); }
+  60% { transform: translate(-2px, 1px) skewX(0.5deg); }
+  80% { transform: translate(2px, -1px) skewX(-0.5deg); }
+}
+
+@keyframes arms-wave-left {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(25deg); }   /* 順時針 → 手往上 */
+}
+
+@keyframes arms-wave-right {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(-25deg); }  /* 逆時針 → 手往上 */
+}
+
+@keyframes kick-leg {
+  0%, 100% { transform-origin: inherit; transform: rotate(0deg); }
+  50% { transform-origin: inherit; transform: rotate(45deg); }
+}
+
+@keyframes game-over-drop {
+  0% { transform: translateY(-80px); opacity: 0; }
+  60% { transform: translateY(8px); opacity: 1; }
+  80% { transform: translateY(-4px); }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes pixel-float {
+  0% { transform: translateY(0) scale(1); opacity: 1; }
+  100% { transform: translateY(-120px) scale(0.5); opacity: 0; }
+}
+
+@keyframes arcade-pulse {
+  0%, 100% { box-shadow: 0 0 6px #ff0066, 0 0 12px #ff0066; }
+  50% { box-shadow: 0 0 14px #ff0066, 0 0 28px #ff0066, 0 0 40px #ff006680; }
+}
+
+/* ============================================================
+   ARCADE UI UTILITY CLASSES
+   ============================================================ */
+
+.crt-overlay {
+  position: relative;
+}
+.crt-overlay::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.12) 2px,
+    rgba(0, 0, 0, 0.12) 4px
+  );
+  pointer-events: none;
+  z-index: 50;
+}
+
+.neon-border-pink {
+  border: 2px solid #ff0066;
+  box-shadow: 0 0 8px #ff0066, inset 0 0 8px rgba(255, 0, 102, 0.15);
+}
+.neon-border-cyan {
+  border: 2px solid #00ffff;
+  box-shadow: 0 0 8px #00ffff, inset 0 0 8px rgba(0, 255, 255, 0.15);
+}
+.neon-border-gold {
+  border: 2px solid #ffd700;
+  box-shadow: 0 0 8px #ffd700, inset 0 0 8px rgba(255, 215, 0, 0.15);
+}
+
+.neon-text-cyan {
+  color: #00ffff;
+  text-shadow: 0 0 6px #00ffff, 0 0 12px #00ffff, 0 0 24px #00ffff80;
+}
+.neon-text-pink {
+  color: #ff0066;
+  text-shadow: 0 0 6px #ff0066, 0 0 12px #ff0066, 0 0 24px #ff006680;
+}
+.neon-text-gold {
+  color: #ffd700;
+  text-shadow: 0 0 6px #ffd700, 0 0 12px #ffd700, 0 0 24px #ffd70080;
+}
+.neon-text-green {
+  color: #39ff14;
+  text-shadow: 0 0 6px #39ff14, 0 0 12px #39ff14, 0 0 24px #39ff1480;
+}
+
+.blink {
+  animation: blink 1s step-end infinite;
+}
+
+.neon-flicker {
+  animation: neon-flicker 3s linear infinite;
+}
+
+.glitch {
+  animation: glitch-shift 4s ease-in-out infinite;
+}
+
+.gesture-arm-left {
+  animation: arms-wave-left 1.2s ease-in-out infinite;
+  transform-origin: 40px 36px;
+}
+.gesture-arm-right {
+  animation: arms-wave-right 1.2s ease-in-out infinite 0.1s;
+  transform-origin: 40px 36px;
+}
+
+.gesture-leg-kick {
+  animation: kick-leg 1.2s ease-in-out infinite;
+  transform-origin: 50% 0%;
+}
+
+.game-over-drop {
+  animation: game-over-drop 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.arcade-pulse {
+  animation: arcade-pulse 1.5s ease-in-out infinite;
 }
