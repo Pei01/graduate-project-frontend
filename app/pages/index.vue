@@ -30,6 +30,10 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 
 const handleStateChange = () => {
-	router.push("/question1");
+	router.push("/shorts");
 };
+
+onMounted(() => {
+	window.addEventListener("hand-up", handleStateChange);
+});
 </script>
