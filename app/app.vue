@@ -10,7 +10,7 @@
 			<source src="/audio/bgm.mp3" type="audio/mpeg" />
 		</audio>
 
-		<div class="absolute h-full left-96">
+		<div class="absolute h-full left-96 w-[390px]">
 			<KinectCursor />
 			<NuxtPage />
 		</div>

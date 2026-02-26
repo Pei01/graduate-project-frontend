@@ -1,37 +1,130 @@
 <template>
-	<div class="relative h-full w-[547.25px]">
-		<!-- 背景圖：加上 object-cover 確保填滿且不變形 -->
-		<img src="~/assets/images/end_cover.png" class="h-full w-full" />
-
-		<!-- 底部容器：關鍵是加上 w-full left-0，這樣 items-center 才會在正中間 -->
-		<!-- pb-20 用來留出底部安全距離 -->
+	<div
+		class="crt-overlay relative h-screen w-full overflow-hidden flex flex-col"
+		style="background-color: #0d0221;"
+	>
+		<!-- TOP HUD BAR -->
 		<div
-			class="absolute bottom-0 left-0 w-full flex flex-col justify-center items-center pb-60"
+			class="relative z-10 flex items-center justify-between px-4 py-2"
+			style="font-family: 'Press Start 2P', monospace; font-size: 8px; color: #ffd700; border-bottom: 1px solid #ff0066; box-shadow: 0 2px 8px #ff006680;"
 		>
-			<!-- === 長條式進度條容器 === -->
-			<div
-				class="w-3/4 max-w-2xl h-2 bg-gray-800/20 rounded-full overflow-hidden relative"
-			>
-				<!-- 進度條本體 -->
-				<div
-					class="h-full bg-black shadow-[0_0_15px_rgba(6,182,212,0.8)] transition-all duration-75 ease-linear"
-					:style="{ width: `${progress}%` }"
-				/>
+			<span>SCORE</span>
+			<span class="neon-text-gold">001337</span>
+			<span class="neon-text-pink">GAME OVER</span>
+		</div>
+
+		<!-- MAIN CONTENT -->
+		<div class="relative z-10 flex flex-col items-center justify-center flex-1 px-6 gap-8">
+
+			<!-- GAME OVER title -->
+			<div class="text-center">
+				<h1
+					class="game-over-drop neon-text-pink"
+					style="font-family: 'Press Start 2P', monospace; font-size: 42px; line-height: 1.1; letter-spacing: 2px;"
+				>
+					GAME<br>OVER
+				</h1>
+				<!-- Pixel dot separator -->
+				<div class="flex items-center justify-center gap-1 mt-4">
+					<span
+						v-for="n in 20"
+						:key="n"
+						class="inline-block"
+						style="width: 6px; height: 6px; background: #ff0066; box-shadow: 0 0 4px #ff0066;"
+					/>
+				</div>
 			</div>
 
-			<!-- 顯示秒數 -->
-			<div class="mt-4 font-mono text-white text-xl font-bold">
-				{{ Math.ceil((DURATION * (1 - progress / 100)) / 1000) }}s
+			<!-- Stats panel -->
+			<div
+				class="neon-border-cyan w-full max-w-xs px-6 py-4"
+				style="background: rgba(0, 255, 255, 0.04);"
+			>
+				<div
+					class="flex justify-between items-center mb-3"
+					style="font-family: 'VT323', monospace; font-size: 22px;"
+				>
+					<span style="color: #ffffff90;">VIDEOS WATCHED</span>
+					<span class="neon-text-gold">{{ watchedStars }}</span>
+				</div>
+				<div
+					class="flex justify-between items-center"
+					style="font-family: 'VT323', monospace; font-size: 22px;"
+				>
+					<span style="color: #ffffff90;">STAGE CLEAR</span>
+					<span class="neon-text-cyan">{{ watchStats.watchedPercent }}%</span>
+				</div>
 			</div>
+
+			<!-- CONTINUE countdown -->
+			<div class="flex flex-col items-center gap-3 w-full max-w-xs">
+				<p
+					class="blink"
+					style="font-family: 'Press Start 2P', monospace; font-size: 11px; color: #ffd700; letter-spacing: 2px;"
+				>
+					CONTINUE?
+				</p>
+
+				<!-- Big countdown number -->
+				<div
+					class="neon-text-pink"
+					style="font-family: 'Press Start 2P', monospace; font-size: 56px; line-height: 1;"
+				>
+					{{ Math.ceil((DURATION * (1 - progress / 100)) / 1000) }}
+				</div>
+
+				<!-- Pixel segmented progress bar -->
+				<div
+					class="neon-border-pink w-full overflow-hidden relative"
+					style="height: 20px; background: rgba(255,0,102,0.08);"
+				>
+					<!-- Pixel grid overlay -->
+					<div
+						class="absolute inset-0 pointer-events-none"
+						style="background: repeating-linear-gradient(90deg, rgba(13,2,33,0.5) 0px, rgba(13,2,33,0.5) 2px, transparent 2px, transparent 18px); z-index: 2;"
+					/>
+					<!-- Progress fill -->
+					<div
+						class="h-full arcade-pulse transition-all ease-linear"
+						style="background: #ff0066; duration: 75ms;"
+						:style="{ width: `${progress}%`, transitionDuration: '75ms' }"
+					/>
+				</div>
+
+				<p
+					style="font-family: 'VT323', monospace; font-size: 16px; color: #ffffff50; letter-spacing: 2px;"
+				>
+					RETURNING TO TITLE SCREEN...
+				</p>
+			</div>
+		</div>
+
+		<!-- BOTTOM BAR -->
+		<div
+			class="relative z-10 text-center py-2"
+			style="font-family: 'VT323', monospace; font-size: 14px; color: #ffffff30; border-top: 1px solid #ffffff15;"
+		>
+			© 1984 NTHU ARCADE CO. ALL RIGHTS RESERVED
 		</div>
 	</div>
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, computed, onMounted, onUnmounted } from "vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
+
+// 從 shorts.vue 共享的觀看統計
+const watchStats = useState("watchStats", () => ({ watchSeconds: 0, watchedPercent: 0, watchedCount: 0 }));
+
+const watchedStars = computed(() => {
+	const p = watchStats.value.watchedPercent;
+	if (p >= 67) return "★★★";
+	if (p >= 34) return "★★☆";
+	if (p > 0)   return "★☆☆";
+	return "☆☆☆";
+});
 
 // === 設定參數 ===
 const DURATION = 5000; // 倒數時間 (毫秒)

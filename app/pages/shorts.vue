@@ -1,6 +1,6 @@
 <template>
 	<div
-		class="h-screen bg-black flex relative justify-center items-center overflow-hidden"
+		class="h-screen w-full bg-black flex relative justify-center items-center overflow-hidden"
 	>
 		<!-- 影片滑動容器 -->
 		<div
@@ -13,44 +13,117 @@
 			<div
 				v-for="(video, index) in extendedVideos"
 				:key="`${video.id}-${index}`"
-				class="h-screen relative flex justify-center items-center bg-black"
+				class="h-full relative flex justify-center items-center bg-black"
 			>
-				<!-- 
-					★ 修改重點：
-					1. :loop -> Intro 影片不循環，其他影片循環
-					2. @ended -> 監聽播放結束，用於 Intro 自動切換
-				-->
 				<video
-					:ref="(el) => (videoRefs[index] = el)"
+					:ref="(el) => { if (el) videoRefs[index] = el }"
 					class="w-full h-full transition-opacity duration-300"
 					:class="getVideoStyle(index)"
 					:src="video.src"
-					:loop="video.id !== 'intro'"
+					loop
 					playsinline
 					@click="changeVideo(1)"
 					@loadedmetadata="onMetadataLoaded($event, index)"
-					@ended="handleVideoEnded(index)"
 				/>
 
-				<!-- 影片資訊 -->
+				<!-- 影片資訊 (arcade terminal style) -->
 				<div
-					class="absolute top-[900px] left-5 text-white z-10 pointer-events-none [text-shadow:0_2px_4px_rgba(0,0,0,0.8)] w-2/3"
+					class="absolute bottom-[100px] left-4 z-10 pointer-events-none w-3/4"
 				>
-					<h2 class="text-2xl font-bold mb-2">{{ video.title }}</h2>
-					<p class="text-lg opacity-90">{{ video.desc }}</p>
+					<p
+						class="neon-text-green mb-1"
+						style="font-family: 'VT323', monospace; font-size: 16px; letter-spacing: 2px;"
+					>
+						&gt; NOW PLAYING_
+					</p>
+					<h2
+						class="neon-text-cyan mb-1"
+						style="font-family: 'Press Start 2P', monospace; font-size: 12px; line-height: 1.5;"
+					>
+						{{ video.title }}
+					</h2>
+					<p
+						style="font-family: 'VT323', monospace; font-size: 18px; color: #ffffffcc; text-shadow: 0 1px 4px rgba(0,0,0,0.9);"
+					>
+						{{ video.desc }}
+					</p>
 				</div>
 			</div>
 		</div>
 
-		<!-- 控制按鈕層 -->
-		<div class="absolute right-4 bottom-14 flex flex-col gap-5 z-20">
+		<!-- 右上角影片計數器 -->
+		<div
+			class="absolute top-3 right-3 z-20 neon-border-gold text-center px-3 py-2"
+			style="background: rgba(13,2,33,0.85);"
+		>
+			<p style="font-family: 'Press Start 2P', monospace; font-size: 7px; color: #ffd700; letter-spacing: 1px;">VIDEO</p>
+			<p class="neon-text-gold" style="font-family: 'Press Start 2P', monospace; font-size: 14px; margin-top: 2px;">
+				{{ String(displayIndex).padStart(2, "0") }}
+			</p>
+		</div>
+
+		<!-- 底部 HUD 控制面板 -->
+		<div
+			class="absolute bottom-0 left-0 right-0 z-20 flex items-center justify-between px-4 py-3"
+			style="background: rgba(13,2,33,0.80); border-top: 1px solid rgba(0,255,255,0.25);"
+		>
+			<!-- 左側：踢腳動作提示 -->
+			<div class="flex flex-col items-center gap-1">
+				<svg width="32" height="48" viewBox="0 0 32 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+					<circle cx="16" cy="6" r="5" stroke="#00ffff" stroke-width="1.5" />
+					<line x1="16" y1="11" x2="16" y2="30" stroke="#00ffff" stroke-width="1.5" />
+					<line x1="16" y1="18" x2="6" y2="24" stroke="#00ffff" stroke-width="1.5" />
+					<line x1="16" y1="18" x2="26" y2="24" stroke="#00ffff" stroke-width="1.5" />
+					<line x1="16" y1="30" x2="8" y2="44" stroke="#00ffff" stroke-width="1.5" />
+					<line
+						class="gesture-leg-kick"
+						x1="16" y1="30" x2="28" y2="38"
+						stroke="#ff0066" stroke-width="1.5"
+						style="transform-origin: 16px 30px;"
+					/>
+				</svg>
+				<span
+					style="font-family: 'VT323', monospace; font-size: 13px; color: #00ffff; letter-spacing: 1px; text-shadow: 0 0 6px #00ffff;"
+				>
+					KICK=NEXT
+				</span>
+			</div>
+
+			<!-- 中間：END SESSION 按鈕 -->
 			<button
-				v-show="currentIndex !== 0"
-				class="kinect-interactive kinect-btn mt-10 py-2 px-3 bg-orange-600/60 text-white text-xl no-underline rounded-full text-center border border-orange-500 backdrop-blur-sm transition-all hover:bg-orange-600/80"
+				class="kinect-interactive kinect-btn neon-border-pink flex items-center justify-center px-4 py-2"
+				style="font-family: 'Press Start 2P', monospace; font-size: 8px; color: #ff0066; background: rgba(255,0,102,0.1); letter-spacing: 1px; cursor: pointer;"
 				@click="handleEnded"
 			>
-				結束測驗
+				END SESSION
 			</button>
+
+			<!-- 右側：舉手動作提示 -->
+			<div class="flex flex-col items-center gap-1">
+				<svg width="32" height="48" viewBox="0 0 32 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+					<circle cx="16" cy="6" r="5" stroke="#ffd700" stroke-width="1.5" />
+					<line x1="16" y1="11" x2="16" y2="30" stroke="#ffd700" stroke-width="1.5" />
+					<line
+						class="gesture-arm-left"
+						x1="16" y1="18" x2="6" y2="12"
+						stroke="#ffd700" stroke-width="1.5"
+						style="transform-origin: 16px 18px;"
+					/>
+					<line
+						class="gesture-arm-right"
+						x1="16" y1="18" x2="26" y2="12"
+						stroke="#ffd700" stroke-width="1.5"
+						style="transform-origin: 16px 18px;"
+					/>
+					<line x1="16" y1="30" x2="8" y2="44" stroke="#ffd700" stroke-width="1.5" />
+					<line x1="16" y1="30" x2="24" y2="44" stroke="#ffd700" stroke-width="1.5" />
+				</svg>
+				<span
+					style="font-family: 'VT323', monospace; font-size: 13px; color: #ffd700; letter-spacing: 1px; text-shadow: 0 0 6px #ffd700;"
+				>
+					HANDS UP=EXIT
+				</span>
+			</div>
 		</div>
 	</div>
 </template>
@@ -58,13 +131,6 @@
 <script setup>
 import { ref, computed, watch, onMounted, onUnmounted, nextTick } from "vue";
 import { useRouter } from "vue-router";
-
-// === 開場影片設定 ===
-// 請確認 public/videos/ 下有這個 intro.mp4 檔案
-const introVideo = {
-	id: "intro",
-	src: "/videos/intro.mp4",
-};
 
 // === 1. 原始資料 ===
 const rawVideos = [
@@ -108,15 +174,13 @@ const rawVideos = [
 		id: 7,
 		src: "/videos/short7.mp4",
 		title: "貓咪復古迪斯可",
-		desc:
-			"穿著復古點點裙的貓咪們再次登場！這次帶來了默契十足的雙人手勢舞，魔性又可愛。",
+		desc: "穿著復古點點裙的貓咪們再次登場！這次帶來了默契十足的雙人手勢舞，魔性又可愛。",
 	},
 	{
 		id: 8,
 		src: "/videos/short8.mp4",
 		title: "極致舒壓擠牙膏",
-		desc:
-			"五顏六色、充滿亮粉的牙膏擠在牙刷上的特寫，絕對是強迫症患者的最愛，視覺上的極致享受。",
+		desc: "五顏六色、充滿亮粉的牙膏擠在牙刷上的特寫，絕對是強迫症患者的最愛，視覺上的極致享受。",
 	},
 	{
 		id: 9,
@@ -148,7 +212,6 @@ const rawVideos = [
 		title: "校園狼人熱舞",
 		desc: "大家注意啦！清大校園驚見兩隻...愛跳舞的狼？跟著音樂一起嗨！",
 	},
-
 	{
 		id: 14,
 		src: "/videos/short14.mp4",
@@ -178,26 +241,25 @@ const rawVideos = [
 const router = useRouter();
 
 // === 2. 狀態管理 ===
-const isIntroPhase = ref(true);
-const currentIndex = ref(0);
+// 結構：[CloneLast, Real1..Real17, CloneFirst]，從 index 1 (Real1) 開始
+const currentIndex = ref(1);
 
-const videoRefs = ref([]);
+// 用 plain array，不用 ref，避免 reactivity 觸發額外 re-render
+const videoRefs = [];
 const transitionDuration = ref(500);
 let isAnimating = false;
 let loopResetTimer = null;
 
-// ★ 新增：儲存每部影片的比例狀態 ('portrait' | 'landscape')
 const videoOrientations = ref({});
 
 // === 觀看時長與覆蓋率追蹤 ===
-const watchStartTime = ref(null);        // 當前影片開始播放的時間戳
-const totalWatchSeconds = ref(0);        // 累計觀看秒數
-const watchedVideoIds = ref(new Set());  // 已觀看的真實影片 ID（1–17）
+const watchStartTime = ref(null);
+const totalWatchSeconds = ref(0);
+const watchedVideoIds = ref(new Set());
 
-// === ★ 新增：判斷影片方向 ===
+// === 判斷影片方向 ===
 const onMetadataLoaded = (event, index) => {
 	const { videoWidth, videoHeight } = event.target;
-	// 如果 寬 > 高，判定為橫式 (Landscape)
 	if (videoWidth > videoHeight) {
 		videoOrientations.value[index] = "landscape";
 	} else {
@@ -208,55 +270,34 @@ const onMetadataLoaded = (event, index) => {
 // === 取得當前索引對應的真實影片 ID ===
 const getCurrentRealVideoId = (index) => {
 	const video = extendedVideos.value[index];
-	if (!video || video.isClone || video.id === "intro") return null;
+	if (!video || video.isClone) return null;
 	return typeof video.id === "number" ? video.id : null;
 };
 
-// === ★ 新增：根據方向回傳對應 class ===
+// === 根據方向回傳對應 class ===
 const getVideoStyle = (index) => {
 	const orientation = videoOrientations.value[index];
-
 	if (orientation === "landscape") {
-		// 橫式影片：完整顯示 (object-contain)，背景保持黑色
 		return "object-contain";
 	} else {
-		// 直式影片：填滿螢幕 (object-cover)，增加沉浸感
 		return "object-cover";
 	}
 };
 
-// === 2. 建構無限輪播資料 ===
+// === 建構無限輪播資料 ===
 const extendedVideos = computed(() => {
 	const firstClone = { ...rawVideos[0], id: "clone-first", isClone: true };
-	const lastClone = {
-		...rawVideos[rawVideos.length - 1],
-		id: "clone-last",
-		isClone: true,
-	};
-
-	if (isIntroPhase.value) {
-		// ★ 開場模式清單： [Intro, Real1, Real2, ..., CloneFirst]
-		return [introVideo, ...rawVideos, firstClone];
-	} else {
-		// ★ 正常循環模式： [CloneLast, Real1, Real2, ..., CloneFirst]
-		return [lastClone, ...rawVideos, firstClone];
-	}
+	const lastClone = { ...rawVideos[rawVideos.length - 1], id: "clone-last", isClone: true };
+	return [lastClone, ...rawVideos, firstClone];
 });
 
-// === 4. 切換影片邏輯 ===
-const changeVideo = async (direction) => {
+// === 切換影片邏輯 ===
+const changeVideo = (direction) => {
 	if (isAnimating) return;
 	isAnimating = true;
-
 	transitionDuration.value = 500;
 	currentIndex.value += direction;
-
 	loopResetTimer = setTimeout(() => {
-		// ★ 狀態切換邏輯：如果從 Intro (idx 0) 滑到 Real1 (idx 1)
-		if (isIntroPhase.value && currentIndex.value === 1) {
-			isIntroPhase.value = false;
-		}
-
 		handleLoopReset();
 		isAnimating = false;
 	}, 500);
@@ -264,55 +305,40 @@ const changeVideo = async (direction) => {
 
 const handleLoopReset = () => {
 	const total = extendedVideos.value.length;
-
-	// 處理無限輪播的瞬移
 	if (currentIndex.value === total - 1) {
 		transitionDuration.value = 0;
 		currentIndex.value = 1;
-	} else if (currentIndex.value === 0 && !isIntroPhase.value) {
+	} else if (currentIndex.value === 0) {
 		transitionDuration.value = 0;
 		currentIndex.value = total - 2;
 	}
 };
 
-// === 5. 播放控制 ===
+// === 播放控制 ===
 watch(currentIndex, async (newIdx, oldIdx) => {
-	// 累積離開影片的觀看時長
 	if (watchStartTime.value !== null) {
 		totalWatchSeconds.value += (Date.now() - watchStartTime.value) / 1000;
 	}
 	watchStartTime.value = Date.now();
 
-	// 記錄新影片的唯一 ID（排除 clone 和 intro）
 	const newVideoId = getCurrentRealVideoId(newIdx);
 	if (newVideoId !== null) {
 		watchedVideoIds.value.add(newVideoId);
 	}
 
 	await nextTick();
-	if (oldIdx !== undefined && videoRefs.value[oldIdx]) {
-		videoRefs.value[oldIdx].pause();
-		videoRefs.value[oldIdx].currentTime = 0;
+	if (oldIdx !== undefined && videoRefs[oldIdx]) {
+		videoRefs[oldIdx].pause();
+		videoRefs[oldIdx].currentTime = 0;
 	}
-	if (videoRefs.value[newIdx]) {
+	if (videoRefs[newIdx]) {
 		try {
-			await videoRefs.value[newIdx].play();
+			await videoRefs[newIdx].play();
 		} catch (err) {}
 	}
 });
 
-// === ★ 新增：處理 Intro 播放結束 ===
-const handleVideoEnded = (index) => {
-	// 如果現在是開場階段 (Intro Phase) 且正在播放第一個影片 (Intro)
-	if (isIntroPhase.value && index === 0) {
-		console.log("Intro 結束，自動切換...");
-		changeVideo(1);
-	}
-};
-
 const displayIndex = computed(() => {
-	if (isIntroPhase.value && currentIndex.value === 0) return "-";
-
 	const realLength = rawVideos.length;
 	if (currentIndex.value === 0) return realLength;
 	if (currentIndex.value === extendedVideos.value.length - 1) return 1;
@@ -322,8 +348,10 @@ const displayIndex = computed(() => {
 // 狀態管理：選擇的動物
 const selectedAnimal = useState("selectedAnimal");
 
+// 狀態管理：觀看統計（供 end.vue 使用）
+const watchStats = useState("watchStats", () => ({ watchSeconds: 0, watchedPercent: 0, watchedCount: 0 }));
+
 const handleEnded = async () => {
-	// 結算當前影片的觀看時長
 	if (watchStartTime.value !== null) {
 		totalWatchSeconds.value += (Date.now() - watchStartTime.value) / 1000;
 		watchStartTime.value = null;
@@ -333,6 +361,8 @@ const handleEnded = async () => {
 	const watchedPercent = Math.round(
 		(watchedVideoIds.value.size / rawVideos.length) * 100
 	);
+
+	watchStats.value = { watchSeconds, watchedPercent, watchedCount: watchedVideoIds.value.size };
 
 	const URL = "http://172.20.10.5:4000/api/print";
 
@@ -352,23 +382,21 @@ const handleEnded = async () => {
 	router.push("/end");
 };
 
-// ★ 新增：處理舉手事件
 const handleHandUp = () => {
-	handleEnded()
+	handleEnded();
 };
 
 const handleKick = () => {
-	if (currentIndex.value !== 0) {
-		changeVideo(1);
-	}
-}
+	changeVideo(1);
+};
 
 onMounted(() => {
 	nextTick(() => {
-		// 播放第一個影片 (Intro)
-		if (videoRefs.value[0]) {
-			videoRefs.value[0].play().catch(() => {});
+		// 從 index 1 (Real1) 開始播放
+		if (videoRefs[1]) {
+			videoRefs[1].play().catch(() => {});
 			watchStartTime.value = Date.now();
+			watchedVideoIds.value.add(rawVideos[0].id);
 		}
 	});
 
@@ -378,11 +406,9 @@ onMounted(() => {
 
 onUnmounted(() => {
 	if (loopResetTimer) clearTimeout(loopResetTimer);
-
-	videoRefs.value.forEach((video) => {
+	videoRefs.forEach((video) => {
 		if (video) video.pause();
 	});
-
 	window.removeEventListener("hand-up", handleHandUp);
 	window.removeEventListener("kick", handleKick);
 });
