@@ -189,6 +189,11 @@ let loopResetTimer = null;
 // ★ 新增：儲存每部影片的比例狀態 ('portrait' | 'landscape')
 const videoOrientations = ref({});
 
+// === 觀看時長與覆蓋率追蹤 ===
+const watchStartTime = ref(null);        // 當前影片開始播放的時間戳
+const totalWatchSeconds = ref(0);        // 累計觀看秒數
+const watchedVideoIds = ref(new Set());  // 已觀看的真實影片 ID（1–17）
+
 // === ★ 新增：判斷影片方向 ===
 const onMetadataLoaded = (event, index) => {
 	const { videoWidth, videoHeight } = event.target;
@@ -198,6 +203,13 @@ const onMetadataLoaded = (event, index) => {
 	} else {
 		videoOrientations.value[index] = "portrait";
 	}
+};
+
+// === 取得當前索引對應的真實影片 ID ===
+const getCurrentRealVideoId = (index) => {
+	const video = extendedVideos.value[index];
+	if (!video || video.isClone || video.id === "intro") return null;
+	return typeof video.id === "number" ? video.id : null;
 };
 
 // === ★ 新增：根據方向回傳對應 class ===
@@ -265,6 +277,18 @@ const handleLoopReset = () => {
 
 // === 5. 播放控制 ===
 watch(currentIndex, async (newIdx, oldIdx) => {
+	// 累積離開影片的觀看時長
+	if (watchStartTime.value !== null) {
+		totalWatchSeconds.value += (Date.now() - watchStartTime.value) / 1000;
+	}
+	watchStartTime.value = Date.now();
+
+	// 記錄新影片的唯一 ID（排除 clone 和 intro）
+	const newVideoId = getCurrentRealVideoId(newIdx);
+	if (newVideoId !== null) {
+		watchedVideoIds.value.add(newVideoId);
+	}
+
 	await nextTick();
 	if (oldIdx !== undefined && videoRefs.value[oldIdx]) {
 		videoRefs.value[oldIdx].pause();
@@ -299,6 +323,17 @@ const displayIndex = computed(() => {
 const selectedAnimal = useState("selectedAnimal");
 
 const handleEnded = async () => {
+	// 結算當前影片的觀看時長
+	if (watchStartTime.value !== null) {
+		totalWatchSeconds.value += (Date.now() - watchStartTime.value) / 1000;
+		watchStartTime.value = null;
+	}
+
+	const watchSeconds = Math.round(totalWatchSeconds.value);
+	const watchedPercent = Math.round(
+		(watchedVideoIds.value.size / rawVideos.length) * 100
+	);
+
 	const URL = "http://172.20.10.5:4000/api/print";
 
 	try {
@@ -306,6 +341,8 @@ const handleEnded = async () => {
 			method: "POST",
 			body: {
 				message: selectedAnimal.value || null,
+				watchSeconds,
+				watchedPercent,
 			},
 		});
 	} catch (e) {
@@ -317,20 +354,26 @@ const handleEnded = async () => {
 
 // ★ 新增：處理舉手事件
 const handleHandUp = () => {
-	if (currentIndex.value !== 0) {
-		changeVideo(1); // 切換到下一部
-	}
+	handleEnded()
 };
+
+const handleKick = () => {
+	if (currentIndex.value !== 0) {
+		changeVideo(1);
+	}
+}
 
 onMounted(() => {
 	nextTick(() => {
 		// 播放第一個影片 (Intro)
 		if (videoRefs.value[0]) {
 			videoRefs.value[0].play().catch(() => {});
+			watchStartTime.value = Date.now();
 		}
 	});
 
 	window.addEventListener("hand-up", handleHandUp);
+	window.addEventListener("kick", handleKick);
 });
 
 onUnmounted(() => {
@@ -341,5 +384,6 @@ onUnmounted(() => {
 	});
 
 	window.removeEventListener("hand-up", handleHandUp);
+	window.removeEventListener("kick", handleKick);
 });
 </script>
