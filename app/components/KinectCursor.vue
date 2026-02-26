@@ -160,6 +160,10 @@ onMounted(() => {
 		// data 可以包含 { type: 'hand_up' } 之類的資訊
 		window.dispatchEvent(new CustomEvent("hand-up", { detail: data }));
 	});
+
+	socket.value.on("kick_event", (data) => {
+		window.dispatchEvent(new CustomEvent("kick", {detail: data}));
+	});
 });
 
 onUnmounted(() => {
