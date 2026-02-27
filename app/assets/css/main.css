@@ -286,3 +286,23 @@
 .arcade-pulse {
   animation: arcade-pulse 1.5s ease-in-out infinite;
 }
+
+/* ============================================================
+   ATTENTION ECONOMY TEXT EFFECTS
+   ============================================================ */
+
+/* Hidden truth text */
+[data-hidden]::before {
+  content: attr(data-hidden);
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  color: #ff0066;
+  opacity: 0.15;
+  pointer-events: none;
+  font-family: 'VT323', monospace;
+  font-size: 12px;
+  letter-spacing: 2px;
+}

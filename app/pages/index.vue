@@ -54,7 +54,7 @@
 					class="mt-2"
 					style="font-family: 'VT323', monospace; font-size: 18px; color: #ffffff80; letter-spacing: 2px;"
 				>
-					SEASON 1 · EPISODE INFINITE
+					{{ episodeText }}<span v-if="showCursor" class="blink">_</span>
 				</p>
 			</div>
 
@@ -81,12 +81,12 @@
 			</div>
 
 			<!-- INSERT COIN + button -->
-			<div class="flex flex-col items-center gap-4">
+			<div class="flex flex-col items-center gap-6">
 				<p
 					class="blink"
 					style="font-family: 'Press Start 2P', monospace; font-size: 10px; color: #ffd700; letter-spacing: 2px;"
 				>
-					- INSERT COIN -
+					{{ insertCoinDisplay }}
 				</p>
 
 				<button
@@ -97,7 +97,6 @@
 					PLAY ▶
 				</button>
 
-				<p style="font-family: 'VT323', monospace; font-size: 18px; color: #ffffff60; letter-spacing: 3px;">CREDIT 01</p>
 			</div>
 		</div>
 
@@ -120,11 +119,43 @@ const handleStateChange = () => {
 	router.push("/tutorial");
 };
 
+// --- Typewriter (one-time) ---
+const EPISODE_FULL = "SEASON 1 · EPISODE INFINITE";
+const episodeText = ref("");
+const showCursor = ref(true);
+
+// --- PAY WITH TIME / INSERT ATTENTION alternating ---
+const COIN_BASE = "◉ PAY WITH TIME ◉";
+const ATTENTION_TARGET = "◉ INSERT ATTENTION ◉";
+const insertCoinDisplay = ref(COIN_BASE);
+
+let typeTimerId: ReturnType<typeof setInterval> | null = null;
+let alternateId: ReturnType<typeof setInterval> | null = null;
+
 onMounted(() => {
 	window.addEventListener("hand-up", handleStateChange);
+
+	// One-time typewriter
+	let i = 0;
+	typeTimerId = setInterval(() => {
+		i++;
+		episodeText.value = EPISODE_FULL.substring(0, i);
+		if (i >= EPISODE_FULL.length) {
+			clearInterval(typeTimerId!);
+			setTimeout(() => { showCursor.value = false; }, 800);
+		}
+	}, 70);
+
+	// Alternate between PAY WITH TIME and INSERT ATTENTION every 3s
+	alternateId = setInterval(() => {
+		insertCoinDisplay.value =
+			insertCoinDisplay.value === COIN_BASE ? ATTENTION_TARGET : COIN_BASE;
+	}, 3000);
 });
 
 onUnmounted(() => {
 	window.removeEventListener("hand-up", handleStateChange);
+	if (typeTimerId) clearInterval(typeTimerId);
+	if (alternateId) clearInterval(alternateId);
 });
 </script>
