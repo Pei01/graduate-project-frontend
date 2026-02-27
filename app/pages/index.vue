@@ -117,7 +117,7 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 
 const handleStateChange = () => {
-	router.push("/shorts");
+	router.push("/tutorial");
 };
 
 onMounted(() => {
