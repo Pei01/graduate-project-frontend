@@ -26,24 +26,26 @@
 					@loadedmetadata="onMetadataLoaded($event, index)"
 				/>
 
-				<!-- 影片資訊 (arcade terminal style) -->
-				<div
-					class="absolute bottom-[100px] left-4 z-10 pointer-events-none w-3/4"
-				>
+				<!-- 正在播放 label (左上角) -->
+				<div class="absolute top-4 left-4 z-10 pointer-events-none px-2 py-1">
 					<p
-						class="neon-text-green mb-1"
+						class="neon-text-gold"
 						style="font-family: 'VT323', monospace; font-size: 16px; letter-spacing: 2px;"
 					>
 						&gt; 正在播放_
 					</p>
+				</div>
+
+				<!-- 影片標題與描述 (左下角) -->
+				<div class="absolute bottom-[100px] left-4 z-10 pointer-events-none w-3/4">
 					<h2
-						class="neon-text-cyan mb-1"
-						style="font-family: 'Press Start 2P', monospace; font-size: 12px; line-height: 1.5;"
+						class="mb-1"
+						style="font-family: 'Press Start 2P', monospace; font-size: 18px; line-height: 1.5; color: #00ffff; text-shadow: 0 0 4px #00ffff50, 0 0 8px #00ffff25;"
 					>
 						{{ video.title }}
 					</h2>
 					<p
-						style="font-family: 'VT323', monospace; font-size: 18px; color: #ffffffcc; text-shadow: 0 1px 4px rgba(0,0,0,0.9);"
+						style="font-family: 'VT323', monospace; font-size: 14px; color: #ffffffcc; text-shadow: 0 1px 4px rgba(0,0,0,0.9);"
 					>
 						{{ video.desc }}
 					</p>
@@ -88,15 +90,6 @@
 					踢腳=下一部
 				</span>
 			</div>
-
-			<!-- 中間：END SESSION 按鈕 -->
-			<button
-				class="kinect-interactive kinect-btn neon-border-pink flex items-center justify-center px-4 py-2"
-				style="font-family: 'Press Start 2P', monospace; font-size: 8px; color: #ff0066; background: rgba(255,0,102,0.1); letter-spacing: 1px; cursor: pointer;"
-				@click="handleEnded"
-			>
-				結束遊戲
-			</button>
 
 			<!-- 右側：舉手動作提示 -->
 			<div class="flex flex-col items-center gap-1">
