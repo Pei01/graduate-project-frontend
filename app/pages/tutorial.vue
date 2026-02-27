@@ -80,7 +80,7 @@
 							style="transform-origin: 40px 64px;"
 						/>
 						<!-- Kick direction arrow -->
-						<text x="58" y="48" fill="#ff0066" font-size="14" font-weight="bold" style="animation: blink 0.8s step-end infinite;">→</text>
+						<text x="65" y="68" fill="#ff0066" font-size="14" font-weight="bold" style="animation: blink 0.8s step-end infinite;">↑</text>
 					</svg>
 
 					<div class="flex flex-col items-center gap-2">
@@ -91,7 +91,7 @@
 							踢腳
 						</p>
 						<p style="font-family: 'VT323', monospace; font-size: 30px; color: #ffffffcc; letter-spacing: 1px;">
-							= 下一支影片
+							下一支影片
 						</p>
 					</div>
 				</div>
@@ -142,7 +142,7 @@
 							雙手舉起
 						</p>
 						<p style="font-family: 'VT323', monospace; font-size: 30px; color: #ffffffcc; letter-spacing: 1px;">
-							= 結束遊戲
+							結束遊戲
 						</p>
 					</div>
 				</div>
