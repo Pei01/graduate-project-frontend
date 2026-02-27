@@ -167,18 +167,21 @@
 }
 
 @keyframes arms-wave-left {
-  0%, 100% { transform: rotate(0deg); }
-  50% { transform: rotate(25deg); }   /* 順時針 → 手往上 */
+  0%   { transform: rotate(-30deg); animation-timing-function: cubic-bezier(0.1, 0, 0.2, 1); } /* 快速衝上，頂點速度趨零 */
+  25%  { transform: rotate(45deg);  animation-timing-function: ease-in-out; }                   /* 頂點最慢，緩慢回落 */
+  100% { transform: rotate(-30deg); }
 }
 
 @keyframes arms-wave-right {
-  0%, 100% { transform: rotate(0deg); }
-  50% { transform: rotate(-25deg); }  /* 逆時針 → 手往上 */
+  0%   { transform: rotate(30deg);  animation-timing-function: cubic-bezier(0.1, 0, 0.2, 1); } /* 快速衝上，頂點速度趨零 */
+  25%  { transform: rotate(-45deg); animation-timing-function: ease-in-out; }                   /* 頂點最慢，緩慢回落 */
+  100% { transform: rotate(30deg); }
 }
 
 @keyframes kick-leg {
-  0%, 100% { transform-origin: inherit; transform: rotate(0deg); }
-  50% { transform-origin: inherit; transform: rotate(45deg); }
+  0%   { transform-origin: inherit; transform: rotate(0deg);  animation-timing-function: cubic-bezier(0.55, 0, 1, 0.45); } /* 加速上踢 */
+  50%  { transform-origin: inherit; transform: rotate(45deg); animation-timing-function: cubic-bezier(0, 0.55, 0.45, 1); } /* 緩慢回落 */
+  100% { transform-origin: inherit; transform: rotate(0deg); }
 }
 
 @keyframes game-over-drop {
@@ -263,16 +266,16 @@
 }
 
 .gesture-arm-left {
-  animation: arms-wave-left 1.2s ease-in-out infinite;
+  animation: arms-wave-left 1.2s linear infinite;
   transform-origin: 40px 36px;
 }
 .gesture-arm-right {
-  animation: arms-wave-right 1.2s ease-in-out infinite 0.1s;
+  animation: arms-wave-right 1.2s linear infinite;
   transform-origin: 40px 36px;
 }
 
 .gesture-leg-kick {
-  animation: kick-leg 1.2s ease-in-out infinite;
+  animation: kick-leg 1.2s linear infinite;
   transform-origin: 50% 0%;
 }
 
