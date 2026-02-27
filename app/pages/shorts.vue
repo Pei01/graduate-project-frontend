@@ -34,7 +34,7 @@
 						class="neon-text-green mb-1"
 						style="font-family: 'VT323', monospace; font-size: 16px; letter-spacing: 2px;"
 					>
-						&gt; NOW PLAYING_
+						&gt; 正在播放_
 					</p>
 					<h2
 						class="neon-text-cyan mb-1"
@@ -56,7 +56,7 @@
 			class="absolute top-3 right-3 z-20 neon-border-gold text-center px-3 py-2"
 			style="background: rgba(13,2,33,0.85);"
 		>
-			<p style="font-family: 'Press Start 2P', monospace; font-size: 7px; color: #ffd700; letter-spacing: 1px;">VIDEO</p>
+			<p style="font-family: 'Press Start 2P', monospace; font-size: 7px; color: #ffd700; letter-spacing: 1px;">影片</p>
 			<p class="neon-text-gold" style="font-family: 'Press Start 2P', monospace; font-size: 14px; margin-top: 2px;">
 				{{ String(displayIndex).padStart(2, "0") }}
 			</p>
@@ -85,7 +85,7 @@
 				<span
 					style="font-family: 'VT323', monospace; font-size: 13px; color: #00ffff; letter-spacing: 1px; text-shadow: 0 0 6px #00ffff;"
 				>
-					KICK=NEXT
+					踢腳=下一部
 				</span>
 			</div>
 
@@ -95,7 +95,7 @@
 				style="font-family: 'Press Start 2P', monospace; font-size: 8px; color: #ff0066; background: rgba(255,0,102,0.1); letter-spacing: 1px; cursor: pointer;"
 				@click="handleEnded"
 			>
-				END SESSION
+				結束遊戲
 			</button>
 
 			<!-- 右側：舉手動作提示 -->
@@ -121,7 +121,7 @@
 				<span
 					style="font-family: 'VT323', monospace; font-size: 13px; color: #ffd700; letter-spacing: 1px; text-shadow: 0 0 6px #ffd700;"
 				>
-					HANDS UP=EXIT
+					舉手=離開
 				</span>
 			</div>
 		</div>

@@ -76,8 +76,8 @@
 
 			<!-- Gesture instruction -->
 			<div class="text-center" style="font-family: 'VT323', monospace;">
-				<p style="font-size: 20px; color: #00ffff; letter-spacing: 2px;">RAISE BOTH HANDS</p>
-				<p class="blink mt-1" style="font-size: 22px; color: #ffffff; letter-spacing: 1px;">▶ TO START ◀</p>
+				<p style="font-size: 20px; color: #00ffff; letter-spacing: 2px;">雙手舉起</p>
+				<p class="blink mt-1" style="font-size: 22px; color: #ffffff; letter-spacing: 1px;">▶ 開始遊戲 ◀</p>
 			</div>
 
 			<!-- INSERT COIN + button -->
@@ -106,7 +106,7 @@
 			class="relative z-10 text-center py-2"
 			style="font-family: 'VT323', monospace; font-size: 14px; color: #ffffff30; border-top: 1px solid #ffffff15;"
 		>
-			© 1984 NTHU ARCADE CO. ALL RIGHTS RESERVED
+			© 2026 ATTENTION CO., LTD. ALL RIGHTS RESERVED
 		</div>
 	</div>
 </template>

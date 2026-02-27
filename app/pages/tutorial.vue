@@ -25,9 +25,9 @@
 			class="relative z-10 flex items-center justify-between px-4 py-2"
 			style="font-family: 'Press Start 2P', monospace; font-size: 8px; color: #ffd700; border-bottom: 1px solid #ff0066; box-shadow: 0 2px 8px #ff006680;"
 		>
-			<span>HOW TO PLAY</span>
+			<span>遊戲說明</span>
 			<span class="neon-text-gold">{{ step }} / 2</span>
-			<span style="color: #ffffff40; font-size: 7px;">RAISE HANDS=SKIP</span>
+			<span style="color: #ffffff40; font-size: 7px;"></span>
 		</div>
 
 		<!-- MAIN CONTENT -->
@@ -55,9 +55,9 @@
 				<div v-if="step === 1" key="kick" class="flex flex-col items-center gap-4 text-center">
 					<p
 						class="neon-text-pink"
-						style="font-family: 'Press Start 2P', monospace; font-size: 8px; letter-spacing: 3px;"
+						style="font-family: 'Press Start 2P', monospace; font-size: 13px; letter-spacing: 3px;"
 					>
-						GESTURE 01
+						動作 01
 					</p>
 
 					<!-- Kick animation SVG -->
@@ -86,12 +86,12 @@
 					<div class="flex flex-col items-center gap-2">
 						<p
 							class="neon-text-cyan"
-							style="font-family: 'Press Start 2P', monospace; font-size: 15px; letter-spacing: 1px;"
+							style="font-family: 'Press Start 2P', monospace; font-size: 22px; letter-spacing: 1px;"
 						>
-							KICK
+							踢腳
 						</p>
-						<p style="font-family: 'VT323', monospace; font-size: 22px; color: #ffffffcc; letter-spacing: 1px;">
-							= NEXT VIDEO
+						<p style="font-family: 'VT323', monospace; font-size: 30px; color: #ffffffcc; letter-spacing: 1px;">
+							= 下一支影片
 						</p>
 					</div>
 				</div>
@@ -100,9 +100,9 @@
 				<div v-else-if="step === 2" key="raise" class="flex flex-col items-center gap-4 text-center">
 					<p
 						class="neon-text-gold"
-						style="font-family: 'Press Start 2P', monospace; font-size: 8px; letter-spacing: 3px;"
+						style="font-family: 'Press Start 2P', monospace; font-size: 13px; letter-spacing: 3px;"
 					>
-						GESTURE 02
+						動作 02
 					</p>
 
 					<!-- Raise hands animation SVG -->
@@ -137,12 +137,12 @@
 					<div class="flex flex-col items-center gap-2">
 						<p
 							class="neon-text-gold"
-							style="font-family: 'Press Start 2P', monospace; font-size: 11px; letter-spacing: 1px;"
+							style="font-family: 'Press Start 2P', monospace; font-size: 22px; letter-spacing: 1px;"
 						>
-							RAISE HANDS
+							雙手舉起
 						</p>
-						<p style="font-family: 'VT323', monospace; font-size: 22px; color: #ffffffcc; letter-spacing: 1px;">
-							= END SESSION
+						<p style="font-family: 'VT323', monospace; font-size: 30px; color: #ffffffcc; letter-spacing: 1px;">
+							= 結束遊戲
 						</p>
 					</div>
 				</div>
@@ -166,9 +166,9 @@
 					/>
 				</div>
 				<p
-					style="font-family: 'VT323', monospace; font-size: 13px; color: #ffffff30; letter-spacing: 2px;"
+					style="font-family: 'VT323', monospace; font-size: 18px; color: #ffffff30; letter-spacing: 2px;"
 				>
-					{{ step < 2 ? `NEXT IN ${countdown}S` : `STARTING IN ${countdown}S` }}
+					{{ step < 2 ? `${countdown} 秒後繼續` : `${countdown} 秒後開始` }}
 				</p>
 			</div>
 
@@ -179,8 +179,8 @@
 			class="relative z-10 flex items-center justify-center py-2"
 			style="background: rgba(13,2,33,0.85); border-top: 1px solid rgba(0,255,255,0.15);"
 		>
-			<p style="font-family: 'VT323', monospace; font-size: 15px; color: #ffffff35; letter-spacing: 2px;">
-				KICK TO ADVANCE &nbsp;·&nbsp; RAISE HANDS TO SKIP
+			<p style="font-family: 'VT323', monospace; font-size: 18px; color: #ffffff35; letter-spacing: 2px;">
+				▶ 自動播放中，請觀看動作示範
 			</p>
 		</div>
 	</div>
@@ -198,7 +198,6 @@ const TICK = 100;
 const step = ref(1);
 const progress = ref(0);
 let timer = null;
-let isAdvancing = false;
 
 const countdown = computed(() =>
 	Math.max(1, Math.ceil(((100 - progress.value) / 100) * STEP_DURATION / 1000))
@@ -210,10 +209,6 @@ const goToShorts = () => {
 };
 
 const advance = () => {
-	if (isAdvancing) return;
-	isAdvancing = true;
-	setTimeout(() => { isAdvancing = false; }, 600);
-
 	if (step.value < 2) {
 		if (timer) clearInterval(timer);
 		step.value++;
@@ -237,19 +232,12 @@ const startTimer = () => {
 	}, TICK);
 };
 
-const handleKick = () => advance();
-const handleHandUp = () => goToShorts();
-
 onMounted(() => {
 	startTimer();
-	window.addEventListener("kick", handleKick);
-	window.addEventListener("hand-up", handleHandUp);
 });
 
 onUnmounted(() => {
 	if (timer) clearInterval(timer);
-	window.removeEventListener("kick", handleKick);
-	window.removeEventListener("hand-up", handleHandUp);
 });
 </script>
 

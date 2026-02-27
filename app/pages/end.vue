@@ -8,9 +8,9 @@
 			class="relative z-10 flex items-center justify-between px-4 py-2"
 			style="font-family: 'Press Start 2P', monospace; font-size: 8px; color: #ffd700; border-bottom: 1px solid #ff0066; box-shadow: 0 2px 8px #ff006680;"
 		>
-			<span>SCORE</span>
+			<span>分數</span>
 			<span class="neon-text-gold">001337</span>
-			<span class="neon-text-pink">GAME OVER</span>
+			<span class="neon-text-pink">遊戲結束</span>
 		</div>
 
 		<!-- MAIN CONTENT -->
@@ -22,7 +22,7 @@
 					class="game-over-drop neon-text-pink"
 					style="font-family: 'Press Start 2P', monospace; font-size: 42px; line-height: 1.1; letter-spacing: 2px;"
 				>
-					GAME<br>OVER
+					遊戲<br>結束
 				</h1>
 				<!-- Pixel dot separator -->
 				<div class="flex items-center justify-center gap-1 mt-4">
@@ -44,14 +44,14 @@
 					class="flex justify-between items-center mb-3"
 					style="font-family: 'VT323', monospace; font-size: 22px;"
 				>
-					<span style="color: #ffffff90;">VIDEOS WATCHED</span>
+					<span style="color: #ffffff90;">已觀看影片</span>
 					<span class="neon-text-gold">{{ watchedStars }}</span>
 				</div>
 				<div
 					class="flex justify-between items-center"
 					style="font-family: 'VT323', monospace; font-size: 22px;"
 				>
-					<span style="color: #ffffff90;">STAGE CLEAR</span>
+					<span style="color: #ffffff90;">關卡完成</span>
 					<span class="neon-text-cyan">{{ watchStats.watchedPercent }}%</span>
 				</div>
 			</div>
@@ -62,7 +62,7 @@
 					class="blink"
 					style="font-family: 'Press Start 2P', monospace; font-size: 11px; color: #ffd700; letter-spacing: 2px;"
 				>
-					CONTINUE?
+					繼續？
 				</p>
 
 				<!-- Big countdown number -->
@@ -94,7 +94,7 @@
 				<p
 					style="font-family: 'VT323', monospace; font-size: 16px; color: #ffffff50; letter-spacing: 2px;"
 				>
-					RETURNING TO TITLE SCREEN...
+					返回主畫面中...
 				</p>
 			</div>
 		</div>
