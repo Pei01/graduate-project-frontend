@@ -127,7 +127,7 @@ const watchedStars = computed(() => {
 });
 
 // === 設定參數 ===
-const DURATION = 5000; // 倒數時間 (毫秒)
+const DURATION = 10000; // 倒數時間 (毫秒)
 const progress = ref(0); // 進度 (0 ~ 100)
 let animationFrameId = null;
 
