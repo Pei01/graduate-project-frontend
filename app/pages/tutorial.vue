@@ -115,14 +115,14 @@
 						<line
 							class="gesture-arm-left"
 							x1="40" y1="36" x2="8" y2="28"
-							stroke="#ffd700" stroke-width="3"
+							stroke="#ff0066" stroke-width="3"
 							style="transform-origin: 40px 36px;"
 						/>
 						<!-- Right arm raised (animated) -->
 						<line
 							class="gesture-arm-right"
 							x1="40" y1="36" x2="72" y2="28"
-							stroke="#ffd700" stroke-width="3"
+							stroke="#ff0066" stroke-width="3"
 							style="transform-origin: 40px 36px;"
 						/>
 						<!-- Left leg -->
@@ -130,8 +130,8 @@
 						<!-- Right leg -->
 						<line x1="40" y1="64" x2="56" y2="96" stroke="#ffd700" stroke-width="2.5" />
 						<!-- Up arrows above hands -->
-						<text x="2" y="22" fill="#ffd700" font-size="10" style="animation: blink 0.8s step-end infinite;">↑</text>
-						<text x="68" y="22" fill="#ffd700" font-size="10" style="animation: blink 0.8s step-end infinite;">↑</text>
+						<text x="2" y="22" fill="#ff0066" font-size="10" style="animation: blink 0.8s step-end infinite;">↑</text>
+						<text x="68" y="22" fill="#ff0066" font-size="10" style="animation: blink 0.8s step-end infinite;">↑</text>
 					</svg>
 
 					<div class="flex flex-col items-center gap-2">

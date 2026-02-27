@@ -106,13 +106,13 @@
 					<line
 						class="gesture-arm-left"
 						x1="16" y1="18" x2="6" y2="12"
-						stroke="#ffd700" stroke-width="1.5"
+						stroke="#ff0066" stroke-width="1.5"
 						style="transform-origin: 16px 18px;"
 					/>
 					<line
 						class="gesture-arm-right"
 						x1="16" y1="18" x2="26" y2="12"
-						stroke="#ffd700" stroke-width="1.5"
+						stroke="#ff0066" stroke-width="1.5"
 						style="transform-origin: 16px 18px;"
 					/>
 					<line x1="16" y1="30" x2="8" y2="44" stroke="#ffd700" stroke-width="1.5" />
