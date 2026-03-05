@@ -357,7 +357,7 @@ const handleEnded = async () => {
 
 	watchStats.value = { watchSeconds, watchedPercent, watchedCount: watchedVideoIds.value.size };
 
-	const URL = "http://172.20.10.5:4000/api/print";
+	const URL = "http://192.168.0.141:4000/api/print";
 
 	try {
 		await $fetch(URL, {
