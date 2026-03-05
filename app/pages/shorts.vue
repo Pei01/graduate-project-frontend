@@ -30,7 +30,7 @@
 				<div class="absolute top-4 left-4 z-10 pointer-events-none px-2 py-1">
 					<p
 						class="neon-text-gold"
-						style="font-family: 'VT323', monospace; font-size: 16px; letter-spacing: 2px;"
+						style="font-family: 'VT323', monospace; font-size: 24px; letter-spacing: 2px;"
 					>
 						&gt; 正在播放_
 					</p>
@@ -58,8 +58,8 @@
 			class="absolute top-3 right-3 z-20 neon-border-gold text-center px-3 py-2"
 			style="background: rgba(13,2,33,0.85);"
 		>
-			<p style="font-family: 'Press Start 2P', monospace; font-size: 7px; color: #ffd700; letter-spacing: 1px;">影片</p>
-			<p class="neon-text-gold" style="font-family: 'Press Start 2P', monospace; font-size: 14px; margin-top: 2px;">
+			<p style="font-family: 'Press Start 2P', monospace; font-size: 11px; color: #ffd700; letter-spacing: 1px;">影片</p>
+			<p class="neon-text-gold" style="font-family: 'Press Start 2P', monospace; font-size: 21px; margin-top: 2px;">
 				{{ String(displayIndex).padStart(2, "0") }}
 			</p>
 		</div>
@@ -85,7 +85,7 @@
 					/>
 				</svg>
 				<span
-					style="font-family: 'VT323', monospace; font-size: 13px; color: #00ffff; letter-spacing: 1px; text-shadow: 0 0 6px #00ffff;"
+					style="font-family: 'VT323', monospace; font-size: 20px; color: #00ffff; letter-spacing: 1px; text-shadow: 0 0 6px #00ffff;"
 				>
 					踢腳=下一部
 				</span>
@@ -112,7 +112,7 @@
 					<line x1="16" y1="30" x2="24" y2="44" stroke="#ffd700" stroke-width="1.5" />
 				</svg>
 				<span
-					style="font-family: 'VT323', monospace; font-size: 13px; color: #ffd700; letter-spacing: 1px; text-shadow: 0 0 6px #ffd700;"
+					style="font-family: 'VT323', monospace; font-size: 20px; color: #ffd700; letter-spacing: 1px; text-shadow: 0 0 6px #ffd700;"
 				>
 					舉手=離開
 				</span>

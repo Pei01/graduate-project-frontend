@@ -6,7 +6,7 @@
 		<!-- TOP HUD BAR -->
 		<div
 			class="relative z-10 flex items-center justify-between px-4 py-2"
-			style="font-family: 'Press Start 2P', monospace; font-size: 8px; color: #ffd700; border-bottom: 1px solid #ff0066; box-shadow: 0 2px 8px #ff006680;"
+			style="font-family: 'Press Start 2P', monospace; font-size: 12px; color: #ffd700; border-bottom: 1px solid #ff0066; box-shadow: 0 2px 8px #ff006680;"
 		>
 			<span>分數</span>
 			<span class="neon-text-gold">001337</span>
@@ -20,7 +20,7 @@
 			<div class="text-center">
 				<h1
 					class="game-over-drop neon-text-pink"
-					style="font-family: 'Press Start 2P', monospace; font-size: 42px; line-height: 1.1; letter-spacing: 2px;"
+					style="font-family: 'Press Start 2P', monospace; font-size: 63px; line-height: 1.1; letter-spacing: 2px;"
 				>
 					遊戲<br>結束
 				</h1>
@@ -42,14 +42,14 @@
 			>
 				<div
 					class="flex justify-between items-center mb-3"
-					style="font-family: 'VT323', monospace; font-size: 22px;"
+					style="font-family: 'VT323', monospace; font-size: 33px;"
 				>
 					<span style="color: #ffffff90;">已觀看影片</span>
 					<span class="neon-text-gold">{{ watchedStars }}</span>
 				</div>
 				<div
 					class="flex justify-between items-center"
-					style="font-family: 'VT323', monospace; font-size: 22px;"
+					style="font-family: 'VT323', monospace; font-size: 33px;"
 				>
 					<span style="color: #ffffff90;">關卡完成</span>
 					<span class="neon-text-cyan">{{ watchStats.watchedPercent }}%</span>
@@ -60,7 +60,7 @@
 			<div class="flex flex-col items-center gap-3 w-full max-w-xs">
 				<p
 					class="blink"
-					style="font-family: 'Press Start 2P', monospace; font-size: 11px; color: #ffd700; letter-spacing: 2px;"
+					style="font-family: 'Press Start 2P', monospace; font-size: 17px; color: #ffd700; letter-spacing: 2px;"
 				>
 					繼續？
 				</p>
@@ -68,7 +68,7 @@
 				<!-- Big countdown number -->
 				<div
 					class="neon-text-pink"
-					style="font-family: 'Press Start 2P', monospace; font-size: 56px; line-height: 1;"
+					style="font-family: 'Press Start 2P', monospace; font-size: 84px; line-height: 1;"
 				>
 					{{ Math.ceil((DURATION * (1 - progress / 100)) / 1000) }}
 				</div>
@@ -92,7 +92,7 @@
 				</div>
 
 				<p
-					style="font-family: 'VT323', monospace; font-size: 16px; color: #ffffff50; letter-spacing: 2px;"
+					style="font-family: 'VT323', monospace; font-size: 24px; color: #ffffff50; letter-spacing: 2px;"
 				>
 					返回主畫面中...
 				</p>
@@ -102,7 +102,7 @@
 		<!-- BOTTOM BAR -->
 		<div
 			class="relative z-10 text-center py-2"
-			style="font-family: 'VT323', monospace; font-size: 14px; color: #ffffff30; border-top: 1px solid #ffffff15;"
+			style="font-family: 'VT323', monospace; font-size: 21px; color: #ffffff30; border-top: 1px solid #ffffff15;"
 		>
 			© 2026 ATTENTION CO., LTD. ALL RIGHTS RESERVED
 		</div>

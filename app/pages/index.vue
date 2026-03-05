@@ -22,7 +22,7 @@
 		<!-- TOP HUD BAR -->
 		<div
 			class="relative z-10 flex items-center justify-between px-4 py-2"
-			style="font-family: 'Press Start 2P', monospace; font-size: 8px; color: #ffd700; border-bottom: 1px solid #ff0066; box-shadow: 0 2px 8px #ff006680;"
+			style="font-family: 'Press Start 2P', monospace; font-size: 12px; color: #ffd700; border-bottom: 1px solid #ff0066; box-shadow: 0 2px 8px #ff006680;"
 		>
 			<span>HI-SCORE</span>
 			<span class="neon-text-gold">999999</span>
@@ -36,13 +36,13 @@
 			<div class="text-center">
 				<h1
 					class="glitch neon-text-pink"
-					style="font-family: 'Press Start 2P', monospace; font-size: 36px; line-height: 1.2; letter-spacing: 2px;"
+					style="font-family: 'Press Start 2P', monospace; font-size: 54px; line-height: 1.2; letter-spacing: 2px;"
 				>
 					SHORTS
 				</h1>
 				<h2
 					class="neon-text-cyan mt-1"
-					style="font-family: 'Press Start 2P', monospace; font-size: 11px; letter-spacing: 4px;"
+					style="font-family: 'Press Start 2P', monospace; font-size: 17px; letter-spacing: 4px;"
 				>
 					ARCADE
 				</h2>
@@ -52,7 +52,7 @@
 				/>
 				<p
 					class="mt-2"
-					style="font-family: 'VT323', monospace; font-size: 18px; color: #ffffff80; letter-spacing: 2px;"
+					style="font-family: 'VT323', monospace; font-size: 27px; color: #ffffff80; letter-spacing: 2px;"
 				>
 					{{ episodeText }}<span v-if="showCursor" class="blink">_</span>
 				</p>
@@ -76,22 +76,22 @@
 
 			<!-- Gesture instruction -->
 			<div class="text-center" style="font-family: 'VT323', monospace;">
-				<p style="font-size: 20px; color: #00ffff; letter-spacing: 2px;">雙手舉起</p>
-				<p class="blink mt-1" style="font-size: 22px; color: #ffffff; letter-spacing: 1px;">▶ 開始遊戲 ◀</p>
+				<p style="font-size: 30px; color: #00ffff; letter-spacing: 2px;">雙手舉起</p>
+				<p class="blink mt-1" style="font-size: 33px; color: #ffffff; letter-spacing: 1px;">▶ 開始遊戲 ◀</p>
 			</div>
 
 			<!-- INSERT COIN + button -->
 			<div class="flex flex-col items-center gap-6">
 				<p
 					class="blink"
-					style="font-family: 'Press Start 2P', monospace; font-size: 10px; color: #ffd700; letter-spacing: 2px;"
+					style="font-family: 'Press Start 2P', monospace; font-size: 15px; color: #ffd700; letter-spacing: 2px;"
 				>
 					{{ insertCoinDisplay }}
 				</p>
 
 				<button
 					class="button-bounce kinect-interactive neon-border-pink flex items-center justify-center gap-2 px-8 py-3"
-					style="font-family: 'Press Start 2P', monospace; font-size: 12px; color: #ff0066; background: rgba(255,0,102,0.08); cursor: pointer; letter-spacing: 1px;"
+					style="font-family: 'Press Start 2P', monospace; font-size: 18px; color: #ff0066; background: rgba(255,0,102,0.08); cursor: pointer; letter-spacing: 1px;"
 					@click="handleStateChange"
 				>
 					PLAY ▶
@@ -103,7 +103,7 @@
 		<!-- BOTTOM BAR -->
 		<div
 			class="relative z-10 text-center py-2"
-			style="font-family: 'VT323', monospace; font-size: 14px; color: #ffffff30; border-top: 1px solid #ffffff15;"
+			style="font-family: 'VT323', monospace; font-size: 21px; color: #ffffff30; border-top: 1px solid #ffffff15;"
 		>
 			© 2026 ATTENTION CO., LTD. ALL RIGHTS RESERVED
 		</div>

@@ -7,7 +7,7 @@
 			class="absolute top-0 size-full flex flex-col items-center justify-center gap-18"
 		>
 			<div
-				class="flex flex-col justify-center items-center font-bold text-black text-6xl gap-5 tracking-wider"
+				class="flex flex-col justify-center items-center font-bold text-black text-8xl gap-5 tracking-wider"
 			>
 				<h1 class="">遇到中肯的批評</h1>
 				<h1 class="">您的第一反應是？</h1>
@@ -16,7 +16,7 @@
 			<div class="flex flex-col items-center justify-center w-100 gap-4">
 				<div v-for="option in questionOptions.Q3" :key="option" class="w-full">
 					<button
-						class="kinect-interactive bg-[#FFFBF4] border-4 border-[#FFAD08] rounded-full w-full hover:scale-110 transition-transform duration-300 py-10 px-8 text-3xl"
+						class="kinect-interactive bg-[#FFFBF4] border-4 border-[#FFAD08] rounded-full w-full hover:scale-110 transition-transform duration-300 py-10 px-8 text-5xl"
 						@click="handleOptionSelect(option)"
 					>
 						{{ option }}

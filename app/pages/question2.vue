@@ -7,7 +7,7 @@
 			class="absolute top-0 size-full flex flex-col items-center justify-center gap-18"
 		>
 			<div
-				class="flex flex-col justify-center items-center font-bold text-black text-6xl gap-5 tracking-wider"
+				class="flex flex-col justify-center items-center font-bold text-black text-8xl gap-5 tracking-wider"
 			>
 				<h1 class="">以下哪種情境</h1>
 				<h1 class="">最讓您感到壓力？</h1>
@@ -16,7 +16,7 @@
 			<div class="flex flex-col items-center justify-center w-100 gap-6">
 				<div v-for="option in questionOptions.Q2" :key="option" class="w-full">
 					<button
-						class="kinect-interactive bg-[#E6FFE9] border-4 border-[#29983C] rounded-full w-full hover:scale-110 transition-transform duration-300 py-10 px-8 text-3xl"
+						class="kinect-interactive bg-[#E6FFE9] border-4 border-[#29983C] rounded-full w-full hover:scale-110 transition-transform duration-300 py-10 px-8 text-5xl"
 						@click="handleOptionSelect(option)"
 					>
 						{{ option }}

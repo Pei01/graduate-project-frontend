@@ -23,11 +23,11 @@
 		<!-- TOP HUD BAR -->
 		<div
 			class="relative z-10 flex items-center justify-between px-4 py-2"
-			style="font-family: 'Press Start 2P', monospace; font-size: 8px; color: #ffd700; border-bottom: 1px solid #ff0066; box-shadow: 0 2px 8px #ff006680;"
+			style="font-family: 'Press Start 2P', monospace; font-size: 12px; color: #ffd700; border-bottom: 1px solid #ff0066; box-shadow: 0 2px 8px #ff006680;"
 		>
 			<span>遊戲說明</span>
 			<span class="neon-text-gold">{{ step }} / 2</span>
-			<span style="color: #ffffff40; font-size: 7px;"></span>
+			<span style="color: #ffffff40; font-size: 11px;"></span>
 		</div>
 
 		<!-- MAIN CONTENT -->
@@ -55,7 +55,7 @@
 				<div v-if="step === 1" key="kick" class="flex flex-col items-center gap-4 text-center">
 					<p
 						class="neon-text-pink"
-						style="font-family: 'Press Start 2P', monospace; font-size: 13px; letter-spacing: 6px;"
+						style="font-family: 'Press Start 2P', monospace; font-size: 20px; letter-spacing: 6px;"
 					>
 						動作 01
 					</p>
@@ -86,11 +86,11 @@
 					<div class="flex flex-col items-center gap-2">
 						<p
 							class="neon-text-cyan"
-							style="font-family: 'Press Start 2P', monospace; font-size: 22px; letter-spacing: 4px;"
+							style="font-family: 'Press Start 2P', monospace; font-size: 33px; letter-spacing: 4px;"
 						>
 							踢腳
 						</p>
-						<p style="font-family: 'VT323', monospace; font-size: 30px; color: #ffffffcc; letter-spacing: 4px;">
+						<p style="font-family: 'VT323', monospace; font-size: 45px; color: #ffffffcc; letter-spacing: 4px;">
 							下一支影片
 						</p>
 					</div>
@@ -100,7 +100,7 @@
 				<div v-else-if="step === 2" key="raise" class="flex flex-col items-center gap-4 text-center">
 					<p
 						class="neon-text-gold"
-						style="font-family: 'Press Start 2P', monospace; font-size: 13px; letter-spacing: 6px;"
+						style="font-family: 'Press Start 2P', monospace; font-size: 20px; letter-spacing: 6px;"
 					>
 						動作 02
 					</p>
@@ -137,11 +137,11 @@
 					<div class="flex flex-col items-center gap-2">
 						<p
 							class="neon-text-gold"
-							style="font-family: 'Press Start 2P', monospace; font-size: 22px; letter-spacing: 4px;"
+							style="font-family: 'Press Start 2P', monospace; font-size: 33px; letter-spacing: 4px;"
 						>
 							雙手舉起
 						</p>
-						<p style="font-family: 'VT323', monospace; font-size: 30px; color: #ffffffcc; letter-spacing: 4px;">
+						<p style="font-family: 'VT323', monospace; font-size: 45px; color: #ffffffcc; letter-spacing: 4px;">
 							結束遊戲
 						</p>
 					</div>
@@ -166,7 +166,7 @@
 					/>
 				</div>
 				<p
-					style="font-family: 'VT323', monospace; font-size: 18px; color: #ffffff30; letter-spacing: 5px;"
+					style="font-family: 'VT323', monospace; font-size: 27px; color: #ffffff30; letter-spacing: 5px;"
 				>
 					{{ step < 2 ? `${countdown} 秒後繼續` : `${countdown} 秒後開始` }}
 				</p>
@@ -179,7 +179,7 @@
 			class="relative z-10 flex items-center justify-center py-2"
 			style="background: rgba(13,2,33,0.85); border-top: 1px solid rgba(0,255,255,0.15);"
 		>
-			<p style="font-family: 'VT323', monospace; font-size: 18px; color: #ffffff35; letter-spacing: 5px;">
+			<p style="font-family: 'VT323', monospace; font-size: 27px; color: #ffffff35; letter-spacing: 5px;">
 				▶ 自動播放中，請觀看動作示範
 			</p>
 		</div>
