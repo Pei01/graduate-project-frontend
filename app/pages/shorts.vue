@@ -229,12 +229,28 @@ const rawVideos = [
 		title: "寶寶老闆的真心話",
 		desc: "街訪路邊的小朋友，沒想到他們的回答竟然充滿了人生哲理？",
 	},
+	{ id: 18, src: "/videos/short18.mp4", title: "短片18", desc: "" },
+	{ id: 19, src: "/videos/short19.mp4", title: "短片19", desc: "" },
+	{ id: 20, src: "/videos/short20.mp4", title: "短片20", desc: "" },
+	{ id: 21, src: "/videos/short21.mp4", title: "短片21", desc: "" },
+	{ id: 22, src: "/videos/short22.mp4", title: "短片22", desc: "" },
+	{ id: 23, src: "/videos/short23.mp4", title: "短片23", desc: "" },
+	{ id: 24, src: "/videos/short24.mp4", title: "短片24", desc: "" },
+	{ id: 25, src: "/videos/short25.mp4", title: "短片25", desc: "" },
+	{ id: 26, src: "/videos/short26.mp4", title: "短片26", desc: "" },
+	{ id: 27, src: "/videos/short27.mp4", title: "短片27", desc: "" },
+	{ id: 28, src: "/videos/short28.mp4", title: "短片28", desc: "" },
+	{ id: 29, src: "/videos/short29.mp4", title: "短片29", desc: "" },
+	{ id: 30, src: "/videos/short30.mp4", title: "短片30", desc: "" },
+	{ id: 31, src: "/videos/short31.mp4", title: "短片31", desc: "" },
+	{ id: 32, src: "/videos/short32.mp4", title: "短片32", desc: "" },
+	{ id: 33, src: "/videos/short33.mp4", title: "短片33", desc: "" },
 ];
 
 const router = useRouter();
 
 // === 2. 狀態管理 ===
-// 結構：[CloneLast, Real1..Real17, CloneFirst]，從 index 1 (Real1) 開始
+// 結構：[CloneLast, Real1..Real33, CloneFirst]，從 index 1 (Real1) 開始
 const currentIndex = ref(1);
 
 // 用 plain array，不用 ref，避免 reactivity 觸發額外 re-render
