@@ -1,6 +1,6 @@
 <template>
 	<div
-		class="h-screen w-full bg-black flex relative justify-center items-center overflow-hidden"
+		class="h-full w-full bg-black flex relative justify-center items-center overflow-hidden"
 	>
 		<!-- 影片滑動容器 -->
 		<div

@@ -1,6 +1,6 @@
 <!-- 問題一 -->
 <template>
-	<div class="flex relative justify-center items-center h-full w-[547.25px]">
+	<div class="flex relative justify-center items-center h-full w-full">
 		<img src="~/assets/images/bg.png" class="absolute h-full w-full" />
 
 		<div class="flex flex-col justify-center items-center z-10">

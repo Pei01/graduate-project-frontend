@@ -44,7 +44,7 @@ import { io } from "socket.io-client";
 const DWELL_TIME = 3000;
 // const SOCKET_URL = "http://192.168.0.110:5000";
 const SOCKET_URL = "http://172.20.10.4:5000";
-const SCREEN_OFFSET_X = 384;
+let SCREEN_OFFSET_X = 0;
 const SCREEN_OFFSET_Y = 0;
 const DEBOUNCE_MS = 200;
 
@@ -147,6 +147,8 @@ const triggerClick = (el) => {
 };
 
 onMounted(() => {
+	SCREEN_OFFSET_X = (window.innerWidth - window.innerHeight * 9 / 16) / 2;
+
 	socket.value = io(SOCKET_URL);
 
 	// 1. 監聽游標移動
