@@ -385,11 +385,22 @@ const handleKick = () => {
 
 onMounted(() => {
 	nextTick(() => {
-		// 從 index 1 (Real1) 開始播放
-		if (videoRefs[1]) {
-			videoRefs[1].play().catch(() => {});
+		const video = videoRefs[1];
+		if (!video) return;
+
+		const tryPlay = () => {
+			video.play().catch((err) => {
+				console.warn("[shorts] 初始播放失敗:", err);
+			});
 			watchStartTime.value = Date.now();
 			watchedVideoIds.value.add(rawVideos[0].id);
+		};
+
+		// readyState >= 2 = HAVE_CURRENT_DATA，已有足夠資料可播放
+		if (video.readyState >= 2) {
+			tryPlay();
+		} else {
+			video.addEventListener("canplay", tryPlay, { once: true });
 		}
 	});
 
