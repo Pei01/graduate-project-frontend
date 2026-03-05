@@ -88,7 +88,7 @@
 							class="neon-text-cyan"
 							style="font-family: 'Press Start 2P', monospace; font-size: 33px; letter-spacing: 4px;"
 						>
-							踢腳
+							側踢腿
 						</p>
 						<p style="font-family: 'VT323', monospace; font-size: 45px; color: #ffffffcc; letter-spacing: 4px;">
 							下一支影片
