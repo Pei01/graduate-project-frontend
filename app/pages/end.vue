@@ -104,7 +104,7 @@
 			class="relative z-10 text-center py-2"
 			style="font-family: 'VT323', monospace; font-size: 14px; color: #ffffff30; border-top: 1px solid #ffffff15;"
 		>
-			© 1984 NTHU ARCADE CO. ALL RIGHTS RESERVED
+			© 2026 ATTENTION CO., LTD. ALL RIGHTS RESERVED
 		</div>
 	</div>
 </template>
