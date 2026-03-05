@@ -37,7 +37,7 @@
 				</div>
 
 				<!-- 影片標題與描述 (左下角) -->
-				<div class="absolute bottom-[100px] left-4 z-10 pointer-events-none w-3/4">
+				<!-- <div class="absolute bottom-[100px] left-4 z-10 pointer-events-none w-3/4">
 					<h2
 						class="mb-1"
 						style="font-family: 'Press Start 2P', monospace; font-size: 18px; line-height: 1.5; color: #00ffff; text-shadow: 0 0 4px #00ffff50, 0 0 8px #00ffff25;"
@@ -49,7 +49,7 @@
 					>
 						{{ video.desc }}
 					</p>
-				</div>
+				</div> -->
 			</div>
 		</div>
 
