@@ -87,7 +87,7 @@
 				<span
 					style="font-family: 'VT323', monospace; font-size: 20px; color: #00ffff; letter-spacing: 1px; text-shadow: 0 0 6px #00ffff;"
 				>
-					踢腳=下一部
+					側踢腿=下一部
 				</span>
 			</div>
 
