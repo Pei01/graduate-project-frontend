@@ -1,11 +1,9 @@
 <template>
-	<!-- ★ 修改：使用 v-show 或 v-if 根據路由隱藏游標 -->
 	<div
 		ref="cursorRef"
 		class="fixed top-0 left-0 w-0 h-0 z-99999 pointer-events-none"
 	>
-		<!-- ... 原本的游標 HTML 保持不變 ... -->
-		<div
+		<!-- <div
 			class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-5 h-5 rounded-full border-2 shadow-[0_0_10px_rgba(0,0,0,0.3)] transition-all duration-100"
 			:class="
 				isPulsing
@@ -32,7 +30,7 @@
 				r="26"
 				:style="{ animationDuration: `${DWELL_TIME}ms` }"
 			/>
-		</svg>
+		</svg> -->
 	</div>
 </template>
 
