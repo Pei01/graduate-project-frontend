@@ -1,36 +1,21 @@
 # ─── User-configurable variables ────────────────────────────────────────────
-$PYTHON_DIR   = "$PSScriptRoot\.."          # 相對於此 script：frontend 的上一層 (backend)
-$PYTHON_BIN   = "python"                    # 或 "python3"、venv 路徑
 $FRONTEND_DIR = $PSScriptRoot              # 此 script 所在目錄即 frontend
 $CHROME_URL   = "http://localhost:3000"
 $CHROME_PORT  = 3000
 $CHROME_EXE   = "C:\Program Files\Google\Chrome\Application\chrome.exe"
 # ─────────────────────────────────────────────────────────────────────────────
 
-$pythonProc = $null
-$npmProc    = $null
+$npmProc = $null
 
 function Stop-All {
     Write-Host ""
     Write-Host "[start] Shutting down..."
-    if ($pythonProc -and -not $pythonProc.HasExited) {
-        Stop-Process -Id $pythonProc.Id -Force -ErrorAction SilentlyContinue
-        Write-Host "[python] stopped (pid $($pythonProc.Id))"
-    }
     if ($npmProc -and -not $npmProc.HasExited) {
         # npm run dev 會產生子 process，用 taskkill 一併結束
         taskkill /PID $npmProc.Id /T /F 2>$null | Out-Null
         Write-Host "[npm] stopped (pid $($npmProc.Id))"
     }
 }
-
-# ─── Start Python backend ─────────────────────────────────────────────────────
-Write-Host "[python] Starting main.py in $PYTHON_DIR..."
-$pythonProc = Start-Process -FilePath $PYTHON_BIN `
-    -ArgumentList "main.py" `
-    -WorkingDirectory $PYTHON_DIR `
-    -PassThru -NoNewWindow
-Write-Host "[python] pid $($pythonProc.Id)"
 
 # ─── Start frontend dev server ────────────────────────────────────────────────
 Write-Host "[npm] Starting dev server in $FRONTEND_DIR..."
