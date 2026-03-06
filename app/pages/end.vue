@@ -60,7 +60,7 @@
 			<div class="flex flex-col items-center gap-3 w-full max-w-xs">
 				<p
 					class="blink"
-					style="font-family: 'Press Start 2P', monospace; font-size: 17px; color: #ffd700; letter-spacing: 2px;"
+					style="font-family: 'Press Start 2P', monospace; font-size: 24px; color: #ffd700; letter-spacing: 2px;"
 				>
 				請至第二空間領取薪資單
 				</p>
