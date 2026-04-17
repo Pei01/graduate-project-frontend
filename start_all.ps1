@@ -1,6 +1,6 @@
 # ─── 路徑設定 ─────────────────────────────────────────────────────────────────
-$FRONTEND_DIR = $PSScriptRoot
-$PROJECT_DIR  = Split-Path $FRONTEND_DIR -Parent
+$PROJECT_DIR  = $PSScriptRoot
+$FRONTEND_DIR = Join-Path $PROJECT_DIR "graduate-project-frontend"
 $KINECT_DIR   = Join-Path $PROJECT_DIR "graduate-project-kinect"
 $PYTHON_BIN   = "python"
 # ─────────────────────────────────────────────────────────────────────────────

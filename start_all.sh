@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 # ─── 路徑設定 ───────────────────────────────────────────────────────────────────
-FRONTEND_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PROJECT_DIR="$(dirname "$FRONTEND_DIR")"
+PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+FRONTEND_DIR="$PROJECT_DIR/graduate-project-frontend"
 KINECT_DIR="$PROJECT_DIR/graduate-project-kinect"
 PYTHON_BIN="python3"
 # ───────────────────────────────────────────────────────────────────────────────
