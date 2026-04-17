@@ -19,7 +19,7 @@ function Stop-All {
 
 # ─── Start frontend dev server ────────────────────────────────────────────────
 Write-Host "[npm] Starting dev server in $FRONTEND_DIR..."
-$npmProc = Start-Process -FilePath "npm" `
+$npmProc = Start-Process -FilePath "npm.cmd" `
     -ArgumentList "run", "dev" `
     -WorkingDirectory $FRONTEND_DIR `
     -PassThru -NoNewWindow
