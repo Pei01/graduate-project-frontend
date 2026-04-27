@@ -51,8 +51,8 @@
 			<!-- Step content with transition -->
 			<Transition name="tutorial-step" mode="out-in">
 
-				<!-- Step 1: KICK -->
-				<div v-if="step === 1" key="kick" class="flex flex-col items-center gap-4 text-center">
+				<!-- Step 1: SINGLE HAND -->
+				<div v-if="step === 1" key="single-hand" class="flex flex-col items-center gap-4 text-center">
 					<p
 						class="neon-text-pink"
 						style="font-family: 'Press Start 2P', monospace; font-size: 20px; letter-spacing: 6px;"
@@ -60,27 +60,27 @@
 						動作 01
 					</p>
 
-					<!-- Kick animation SVG -->
+					<!-- Single hand raise animation SVG -->
 					<svg width="120" height="160" viewBox="0 0 80 110" fill="none" xmlns="http://www.w3.org/2000/svg">
 						<!-- Head -->
 						<circle cx="40" cy="12" r="9" stroke="#00ffff" stroke-width="2.5" />
 						<!-- Body -->
 						<line x1="40" y1="21" x2="40" y2="64" stroke="#00ffff" stroke-width="2.5" />
-						<!-- Left arm (静止) -->
+						<!-- Left arm (靜止，自然下垂) -->
 						<line x1="40" y1="36" x2="16" y2="50" stroke="#00ffff" stroke-width="2.5" />
-						<!-- Right arm (静止) -->
-						<line x1="40" y1="36" x2="64" y2="50" stroke="#00ffff" stroke-width="2.5" />
-						<!-- Left leg (standing) -->
-						<line x1="40" y1="64" x2="24" y2="96" stroke="#00ffff" stroke-width="2.5" />
-						<!-- Right leg (kicking - animated) -->
+						<!-- Right arm (舉起動畫) -->
 						<line
-							class="gesture-leg-kick"
-							x1="40" y1="64" x2="68" y2="80"
+							class="gesture-single-arm"
+							x1="40" y1="36" x2="64" y2="24"
 							stroke="#ff0066" stroke-width="3"
-							style="transform-origin: 40px 64px;"
+							style="transform-origin: 40px 36px;"
 						/>
-						<!-- Kick direction arrow -->
-						<text x="65" y="68" fill="#ff0066" font-size="14" font-weight="bold" style="animation: blink 0.8s step-end infinite;">↑</text>
+						<!-- Left leg -->
+						<line x1="40" y1="64" x2="24" y2="96" stroke="#00ffff" stroke-width="2.5" />
+						<!-- Right leg -->
+						<line x1="40" y1="64" x2="56" y2="96" stroke="#00ffff" stroke-width="2.5" />
+						<!-- Up arrow above right hand -->
+						<text x="62" y="18" fill="#ff0066" font-size="14" font-weight="bold" style="animation: blink 0.8s step-end infinite;">↑</text>
 					</svg>
 
 					<div class="flex flex-col items-center gap-2">
@@ -88,10 +88,10 @@
 							class="neon-text-cyan"
 							style="font-family: 'Press Start 2P', monospace; font-size: 33px; letter-spacing: 4px;"
 						>
-							側踢腿
+							舉單手
 						</p>
 						<p style="font-family: 'VT323', monospace; font-size: 45px; color: #ffffffcc; letter-spacing: 4px;">
-							下一支影片
+							切換影片
 						</p>
 					</div>
 				</div>
@@ -142,7 +142,7 @@
 							雙手舉起
 						</p>
 						<p style="font-family: 'VT323', monospace; font-size: 45px; color: #ffffffcc; letter-spacing: 4px;">
-							結束遊戲
+							開始 / 結束
 						</p>
 					</div>
 				</div>

@@ -69,29 +69,31 @@
 			class="absolute bottom-0 left-0 right-0 z-20 flex items-center justify-between px-4 py-3"
 			style="background: rgba(13,2,33,0.80); border-top: 1px solid rgba(0,255,255,0.25);"
 		>
-			<!-- 左側：踢腳動作提示 -->
+			<!-- 左側：舉單手動作提示 -->
 			<div class="flex flex-col items-center gap-1">
 				<svg width="32" height="48" viewBox="0 0 32 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
 					<circle cx="16" cy="6" r="5" stroke="#00ffff" stroke-width="1.5" />
 					<line x1="16" y1="11" x2="16" y2="30" stroke="#00ffff" stroke-width="1.5" />
+					<!-- 左手靜止 -->
 					<line x1="16" y1="18" x2="6" y2="24" stroke="#00ffff" stroke-width="1.5" />
-					<line x1="16" y1="18" x2="26" y2="24" stroke="#00ffff" stroke-width="1.5" />
-					<line x1="16" y1="30" x2="8" y2="44" stroke="#00ffff" stroke-width="1.5" />
+					<!-- 右手舉起（動畫） -->
 					<line
-						class="gesture-leg-kick"
-						x1="16" y1="30" x2="28" y2="38"
+						class="gesture-single-arm"
+						x1="16" y1="18" x2="26" y2="12"
 						stroke="#ff0066" stroke-width="1.5"
-						style="transform-origin: 16px 30px;"
+						style="transform-origin: 16px 18px;"
 					/>
+					<line x1="16" y1="30" x2="8" y2="44" stroke="#00ffff" stroke-width="1.5" />
+					<line x1="16" y1="30" x2="24" y2="44" stroke="#00ffff" stroke-width="1.5" />
 				</svg>
 				<span
 					style="font-family: 'VT323', monospace; font-size: 20px; color: #00ffff; letter-spacing: 1px; text-shadow: 0 0 6px #00ffff;"
 				>
-					側踢腿=下一部
+					舉單手=切換
 				</span>
 			</div>
 
-			<!-- 右側：舉手動作提示 -->
+			<!-- 右側：舉雙手動作提示 -->
 			<div class="flex flex-col items-center gap-1">
 				<svg width="32" height="48" viewBox="0 0 32 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
 					<circle cx="16" cy="6" r="5" stroke="#ffd700" stroke-width="1.5" />
@@ -114,7 +116,7 @@
 				<span
 					style="font-family: 'VT323', monospace; font-size: 20px; color: #ffd700; letter-spacing: 1px; text-shadow: 0 0 6px #ffd700;"
 				>
-					舉手=離開
+					雙手舉起=離開
 				</span>
 			</div>
 		</div>
@@ -395,7 +397,7 @@ const handleHandUp = () => {
 	handleEnded();
 };
 
-const handleKick = () => {
+const handleSingleHand = () => {
 	changeVideo(1);
 };
 
@@ -420,8 +422,8 @@ onMounted(() => {
 		}
 	});
 
-	window.addEventListener("hand-up", handleHandUp);
-	window.addEventListener("kick", handleKick);
+	window.addEventListener("both-hands-up", handleHandUp);
+	window.addEventListener("single-hand-up", handleSingleHand);
 });
 
 onUnmounted(() => {
@@ -429,7 +431,7 @@ onUnmounted(() => {
 	videoRefs.forEach((video) => {
 		if (video) video.pause();
 	});
-	window.removeEventListener("hand-up", handleHandUp);
-	window.removeEventListener("kick", handleKick);
+	window.removeEventListener("both-hands-up", handleHandUp);
+	window.removeEventListener("single-hand-up", handleSingleHand);
 });
 </script>

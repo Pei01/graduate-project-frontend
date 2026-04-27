@@ -133,7 +133,7 @@ let typeTimerId: ReturnType<typeof setInterval> | null = null;
 let alternateId: ReturnType<typeof setInterval> | null = null;
 
 onMounted(() => {
-	window.addEventListener("hand-up", handleStateChange);
+	window.addEventListener("both-hands-up", handleStateChange);
 
 	// One-time typewriter
 	let i = 0;
@@ -154,7 +154,7 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
-	window.removeEventListener("hand-up", handleStateChange);
+	window.removeEventListener("both-hands-up", handleStateChange);
 	if (typeTimerId) clearInterval(typeTimerId);
 	if (alternateId) clearInterval(alternateId);
 });

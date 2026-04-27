@@ -153,15 +153,13 @@ onMounted(() => {
 		requestAnimationFrame(() => handleMouseData(data));
 	});
 
-	// 2. ★ 新增：監聽舉手事件 (或其他手勢)
-	socket.value.on("hand_event", (data) => {
-		// 將事件轉發給全域 window，讓其他頁面可以監聽
-		// data 可以包含 { type: 'hand_up' } 之類的資訊
-		window.dispatchEvent(new CustomEvent("hand-up", { detail: data }));
+	// 2. 監聽手勢事件，轉發給全域 window
+	socket.value.on("both_hands_event", (data) => {
+		window.dispatchEvent(new CustomEvent("both-hands-up", { detail: data }));
 	});
 
-	socket.value.on("kick_event", (data) => {
-		window.dispatchEvent(new CustomEvent("kick", {detail: data}));
+	socket.value.on("single_hand_event", (data) => {
+		window.dispatchEvent(new CustomEvent("single-hand-up", { detail: data }));
 	});
 });
 
