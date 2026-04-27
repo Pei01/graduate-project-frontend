@@ -2,7 +2,7 @@
 $PROJECT_DIR  = $PSScriptRoot
 $FRONTEND_DIR = Join-Path $PROJECT_DIR "graduate-project-frontend"
 $KINECT_DIR   = Join-Path $PROJECT_DIR "graduate-project-kinect"
-$PYTHON_BIN   = "python"
+$PYTHON_BIN   = "python"   # fallback; overridden below if venv is found
 # ─────────────────────────────────────────────────────────────────────────────
 
 $kinectProc   = $null
@@ -19,6 +19,19 @@ function Stop-All {
         taskkill /PID $frontendProc.Id /T /F 2>$null | Out-Null
         Write-Host "[frontend] stopped (pid $($frontendProc.Id))"
     }
+}
+
+# ─── 自動偵測 Kinect venv ─────────────────────────────────────────────────────
+foreach ($venvName in @("venv", ".venv")) {
+    $candidate = Join-Path $KINECT_DIR "$venvName\Scripts\python.exe"
+    if (Test-Path $candidate) {
+        $PYTHON_BIN = $candidate
+        Write-Host "[kinect] Using venv: $candidate"
+        break
+    }
+}
+if ($PYTHON_BIN -eq "python") {
+    Write-Host "[kinect] No venv found, using system python."
 }
 
 # ─── 啟動 Kinect main.py ──────────────────────────────────────────────────────
