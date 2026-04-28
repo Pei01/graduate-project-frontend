@@ -1,6 +1,6 @@
 <template>
-	<div class="relative h-screen w-full bg-black">
-		<!-- 
+	<div class="relative h-screen w-full bg-black overflow-hidden">
+		<!--
 			★ 全域背景音樂 ★
 			放在這裡可以確保換頁時音樂不中斷。
 			ref="bgmAudio" 用來讓 JS 控制播放/暫停。
@@ -10,7 +10,7 @@
 			<source src="/audio/bgm.mp3" type="audio/mpeg" />
 		</audio>
 
-		<div class="absolute inset-y-0 left-[380px] h-full aspect-[9/16]">
+		<div class="absolute inset-y-0 left-1/2 -translate-x-1/2 h-full aspect-[9/16]">
 			<KinectCursor />
 			<NuxtPage />
 		</div>
