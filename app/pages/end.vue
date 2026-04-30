@@ -62,7 +62,7 @@
 					class="blink"
 					style="font-family: 'Press Start 2P', monospace; font-size: 24px; color: #ffd700; letter-spacing: 2px;"
 				>
-				請至第二空間領取薪資單
+				請至櫃檯領取薪資單
 				</p>
 
 				<!-- Big countdown number -->
