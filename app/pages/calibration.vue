@@ -12,17 +12,38 @@
 			</header>
 
 			<div class="grid grid-cols-1 lg:grid-cols-[800px_1fr] gap-6">
-				<!-- 雷達 -->
-				<div class="neon-border-cyan rounded p-2 bg-black/40">
-					<canvas
-						ref="canvasRef"
-						width="800"
-						height="800"
-						class="block w-full h-auto"
-					/>
-					<div class="text-xs text-white/60 mt-2 flex justify-between px-2">
-						<span>俯視圖 X-Z 平面 (mm) · Kinect 在底部中央</span>
-						<span>每格 500mm · 視野錐 ±37.5°</span>
+				<div class="space-y-4">
+					<!-- 彩色影像預覽 -->
+					<div class="neon-border-gold rounded p-2 bg-black/40">
+						<div class="flex justify-between items-baseline mb-1 px-1">
+							<span class="text-neon-gold text-xs font-arcade">CAMERA</span>
+							<span class="text-white/50 text-xs">
+								{{ colorSrc ? "live" : "等待影像..." }}
+							</span>
+						</div>
+						<div class="aspect-video bg-black/60 flex items-center justify-center overflow-hidden">
+							<img
+								v-if="colorSrc"
+								:src="colorSrc"
+								class="w-full h-full object-contain"
+								alt="Kinect color preview"
+							/>
+							<span v-else class="text-white/30 text-sm">no signal</span>
+						</div>
+					</div>
+
+					<!-- 雷達 -->
+					<div class="neon-border-cyan rounded p-2 bg-black/40">
+						<canvas
+							ref="canvasRef"
+							width="800"
+							height="800"
+							class="block w-full h-auto"
+						/>
+						<div class="text-xs text-white/60 mt-2 flex justify-between px-2">
+							<span>俯視圖 X-Z 平面 (mm) · Kinect 在底部中央</span>
+							<span>每格 500mm · 視野錐 ±37.5°</span>
+						</div>
 					</div>
 				</div>
 
@@ -79,6 +100,7 @@ const socket = ref(null);
 const connected = ref(false);
 const bodies = ref([]);
 const activeId = ref(null);
+const colorSrc = ref("");
 
 const range = reactive({
 	x_min: -2000,
@@ -275,6 +297,11 @@ onMounted(async () => {
 		bodies.value = Array.isArray(data?.bodies) ? data.bodies : [];
 		activeId.value = data?.active_id ?? null;
 		scheduleDraw();
+	});
+	socket.value.on("color_frame", (data) => {
+		if (data?.jpeg_b64) {
+			colorSrc.value = `data:image/jpeg;base64,${data.jpeg_b64}`;
+		}
 	});
 });
 
