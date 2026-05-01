@@ -13,23 +13,20 @@
 
 			<div class="grid grid-cols-1 lg:grid-cols-[800px_1fr] gap-6">
 				<div class="space-y-4">
-					<!-- 彩色影像預覽 -->
+					<!-- 彩色影像預覽 + 即時 bounds 投影 -->
 					<div class="neon-border-gold rounded p-2 bg-black/40">
 						<div class="flex justify-between items-baseline mb-1 px-1">
 							<span class="text-neon-gold text-xs font-arcade">CAMERA</span>
 							<span class="text-white/50 text-xs">
-								{{ colorSrc ? "live" : "等待影像..." }}
+								{{ hasColor ? "live · 框跟著 slider 即時更新" : "等待影像..." }}
 							</span>
 						</div>
-						<div class="aspect-video bg-black/60 flex items-center justify-center overflow-hidden">
-							<img
-								v-if="colorSrc"
-								:src="colorSrc"
-								class="w-full h-full object-contain"
-								alt="Kinect color preview"
-							/>
-							<span v-else class="text-white/30 text-sm">no signal</span>
-						</div>
+						<canvas
+							ref="cameraCanvasRef"
+							width="640"
+							height="360"
+							class="block w-full h-auto bg-black/60"
+						/>
 					</div>
 
 					<!-- 雷達 -->
@@ -96,11 +93,19 @@ definePageMeta({ layout: false });
 const SOCKET_URL = "http://127.0.0.1:5000";
 
 const canvasRef = ref(null);
+const cameraCanvasRef = ref(null);
 const socket = ref(null);
 const connected = ref(false);
 const bodies = ref([]);
 const activeId = ref(null);
-const colorSrc = ref("");
+const hasColor = ref(false);
+let cachedCameraImg = null;
+
+// Azure Kinect K4A_COLOR_RESOLUTION_720P 大致內參(縮成 640x360 的對應值)
+// 用來把 3D bounds (mm) 投影回彩色影像 2D 像素,屬視覺輔助、非精準對齊
+const CAM = { fx: 306.4, fy: 306.3, cx: 319.4, cy: 183.9 };
+// 3D bounds 投影時取的 Y 高度(mm,depth 座標系 +Y 向下),約胸口高度
+const BOX_PROJECT_Y = 500;
 
 const range = reactive({
 	x_min: -2000,
@@ -136,9 +141,11 @@ const copyAsPython = async () => {
 	}
 };
 
-// --- Slider 變動 → debounce 後送後端 ---
+// --- Slider 變動 → debounce 後送後端 + 立刻重畫雙圖 ---
 let emitTimer = null;
 const onRangeInput = () => {
+	scheduleDraw();
+	scheduleCameraDraw();
 	if (emitTimer) clearTimeout(emitTimer);
 	emitTimer = setTimeout(() => {
 		if (!socket.value) return;
@@ -149,6 +156,67 @@ const onRangeInput = () => {
 			z_max: range.z_max,
 		});
 	}, 100);
+};
+
+// --- 3D → 彩色影像 2D 投影 ---
+const project3dToCamera = (x, y, z) => {
+	if (z <= 1) return null;
+	return [CAM.fx * x / z + CAM.cx, CAM.fy * y / z + CAM.cy];
+};
+
+const drawCamera = () => {
+	const canvas = cameraCanvasRef.value;
+	if (!canvas) return;
+	const ctx = canvas.getContext("2d");
+	const W = canvas.width;
+	const H = canvas.height;
+
+	// 底圖
+	ctx.fillStyle = "#000";
+	ctx.fillRect(0, 0, W, H);
+	if (cachedCameraImg) {
+		ctx.drawImage(cachedCameraImg, 0, 0, W, H);
+	} else {
+		ctx.fillStyle = "rgba(255,255,255,0.3)";
+		ctx.font = "16px VT323, monospace";
+		ctx.fillText("no signal", W / 2 - 30, H / 2);
+		return;
+	}
+
+	// 投影目前 bounds 的四個角
+	const corners = [
+		[range.x_min, BOX_PROJECT_Y, range.z_min],
+		[range.x_max, BOX_PROJECT_Y, range.z_min],
+		[range.x_max, BOX_PROJECT_Y, range.z_max],
+		[range.x_min, BOX_PROJECT_Y, range.z_max],
+	].map(([x, y, z]) => project3dToCamera(x, y, z));
+
+	if (corners.some(p => !p)) return;
+
+	ctx.fillStyle = "rgba(0,255,255,0.18)";
+	ctx.strokeStyle = "#00ffff";
+	ctx.lineWidth = 3;
+	ctx.beginPath();
+	ctx.moveTo(corners[0][0], corners[0][1]);
+	for (let i = 1; i < corners.length; i++) ctx.lineTo(corners[i][0], corners[i][1]);
+	ctx.closePath();
+	ctx.fill();
+	ctx.stroke();
+
+	// 標 z_min / z_max 標籤
+	ctx.fillStyle = "#00ffff";
+	ctx.font = "12px VT323, monospace";
+	ctx.fillText(`z=${Math.round(range.z_min)}`, corners[0][0] + 4, corners[0][1] - 4);
+	ctx.fillText(`z=${Math.round(range.z_max)}`, corners[3][0] + 4, corners[3][1] - 4);
+};
+
+let cameraRaf = null;
+const scheduleCameraDraw = () => {
+	if (cameraRaf) return;
+	cameraRaf = requestAnimationFrame(() => {
+		cameraRaf = null;
+		drawCamera();
+	});
 };
 
 // --- 雷達繪製 ---
@@ -276,6 +344,7 @@ const scheduleDraw = () => {
 onMounted(async () => {
 	await nextTick();
 	drawRadar();
+	drawCamera();
 
 	socket.value = io(SOCKET_URL);
 	socket.value.on("connect", () => {
@@ -299,15 +368,21 @@ onMounted(async () => {
 		scheduleDraw();
 	});
 	socket.value.on("color_frame", (data) => {
-		if (data?.jpeg_b64) {
-			colorSrc.value = `data:image/jpeg;base64,${data.jpeg_b64}`;
-		}
+		if (!data?.jpeg_b64) return;
+		const img = new Image();
+		img.onload = () => {
+			cachedCameraImg = img;
+			hasColor.value = true;
+			scheduleCameraDraw();
+		};
+		img.src = `data:image/jpeg;base64,${data.jpeg_b64}`;
 	});
 });
 
 onUnmounted(() => {
 	if (emitTimer) clearTimeout(emitTimer);
 	if (rafHandle) cancelAnimationFrame(rafHandle);
+	if (cameraRaf) cancelAnimationFrame(cameraRaf);
 	if (socket.value) socket.value.disconnect();
 });
 </script>
